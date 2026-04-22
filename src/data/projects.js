@@ -233,7 +233,7 @@ export const projects = [
     title: 'Portfolio Website',
     excerpt: 'A modern, responsive portfolio website built with React and Tailwind CSS.',
     thumbnail: '/assets/Logo/CrazyDogHeader-D8wfwEUI.png',
-    githubUrl: 'https://github.com/CrazyDog559',
+    githubUrl: 'https://github.com/CrazyDog559/Drew-Wan-Website',
     date: 'December 2025',
     category: 'Web Development',
     techStack: ['React.js', 'Tailwind CSS', 'Vite', 'React Router', 'Hostinger'],

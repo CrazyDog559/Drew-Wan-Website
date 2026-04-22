@@ -46,7 +46,7 @@ const About = () => {
           </div>
 
           <div className="mt-12 flex space-x-4">
-            <a href="/assets/Resume/Andrew-Wan-Resume-Engineering.pdf" download>
+            <a href="/assets/Resume/Andrew-Wan-SWE.pdf" download>
               <Button variant="primary">Download Resume</Button>
             </a>
           </div>
