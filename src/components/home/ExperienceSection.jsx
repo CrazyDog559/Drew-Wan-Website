@@ -4,7 +4,10 @@ const ExperienceSection = () => {
   return (
     <section id="experience" className="scroll-mt-24 bg-gray-50 dark:bg-gray-800 py-14 sm:py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center">Experience</h2>
+        <div className="text-center mb-12">
+          <p className="text-primary font-medium mb-3">BACKGROUND</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">Experience</h2>
+        </div>
 
         <div className="space-y-8 mb-16">
           {experience.map((job) => (

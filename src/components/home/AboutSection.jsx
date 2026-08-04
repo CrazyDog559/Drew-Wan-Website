@@ -22,28 +22,30 @@ const AboutSection = () => {
 
           <div className="prose prose-base sm:prose-lg dark:prose-invert max-w-2xl text-gray-700 dark:text-gray-300 leading-relaxed space-y-6 px-1 sm:px-0">
             <p>
-              I'm Andrew Wan, a Computer Engineering major with a deep passion for technology and innovation.
-              I'm currently studying at UCLA where I focus on data systems development and building practical
-              solutions to real-world problems.
+              I'm a Computer Engineering student at UCLA (Film & TV minor), currently finishing a Master's
+              in Electrical Engineering and Computer Science at UC Irvine. I like projects that sit at the
+              intersection of hardware and software — the kind where you can point at something and say,
+              "I built that."
             </p>
 
             <p>
-              My interests span across various domains including software development, hardware projects,
-              and system architecture. I love taking on challenging projects that push me to learn and grow,
-              whether it's building a custom NAS system, developing web applications, or exploring new frameworks
-              and technologies.
+              That shows up in things like AirWave, a gesture- and voice-controlled interface built around
+              a Raspberry Pi and IMU sensors, and a home NAS I put together from spare parts and set up with
+              RAID 5 for redundancy. I've also spent time on the data side — writing automation scripts and
+              LLM-assisted workflows for qualitative research, and building out AV tooling for UCLA's
+              BruinCast operation.
             </p>
 
             <p>
-              Outside of work, I'm passionate about photography and video editing, capturing memorable moments in my life. I also enjoy outdoor activities like rock climbing
-              and snowboarding, which help me stay active and push my limits in different ways.
+              Outside of engineering, I teach programming fundamentals to kids at Code Ninjas, and I'm usually
+              somewhere outdoors — rock climbing, snowboarding, or trying whatever sport I haven't attempted
+              yet. I've also been on a handful of medical mission trips, most recently to Fiji.
             </p>
 
             <p>
-              I believe in continuous learning and sharing knowledge with the community. Through my projects,
-              I aim to document my journey and help others who are interested in similar pursuits. Feel free
-              to explore my work and reach out if you'd like to collaborate or just chat about technology
-              and innovation.
+              Most of the projects on this site come with the write-up, video, or code behind them, since I
+              like documenting the process as much as the result. Take a look around, and feel free to reach
+              out if you want to talk shop.
             </p>
           </div>
 

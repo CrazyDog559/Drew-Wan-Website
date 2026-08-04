@@ -4,7 +4,10 @@ const SkillsSection = () => {
   return (
     <section id="skills" className="scroll-mt-24 bg-white dark:bg-gray-900 py-14 sm:py-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center">Skills & Toolkit</h2>
+        <div className="text-center mb-12">
+          <p className="text-primary font-medium mb-3">WHAT I WORK WITH</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">Skills & Toolkit</h2>
+        </div>
 
         <div className="grid sm:grid-cols-2 gap-8 sm:gap-10">
           {skills.map((group) => (

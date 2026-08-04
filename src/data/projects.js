@@ -51,7 +51,7 @@ export const projects = [
     id: 1,
     slug: 'nas',
     title: 'Building a NAS',
-    excerpt: 'A comprehensive guide to building a custom Network Attached Storage system for home use.',
+    excerpt: 'A home NAS built from spare parts, running RAID 5 for reliable network storage.',
     thumbnail: '/assets/Projects/NAS/Thumbnail.png',
     youtubeId: 'bdis5gb_cj8',
     date: 'December 2025',
@@ -280,46 +280,32 @@ export const projects = [
     id: 6,
     slug: 'portfolio-website',
     title: 'Portfolio Website',
-    excerpt: 'A modern, responsive portfolio website built with React and Tailwind CSS.',
+    excerpt: 'This site — built with React, Tailwind, and probably too much attention to dark mode.',
     thumbnail: '/assets/Logo/CrazyDogHeader-D8wfwEUI.png',
     githubUrl: 'https://github.com/CrazyDog559/Drew-Wan-Website',
     date: 'December 2025',
     category: 'Web Development',
     techStack: ['React.js', 'Tailwind CSS', 'Vite', 'React Router', 'Hostinger'],
     description: `
-      <p>This portfolio website serves as a comprehensive showcase of my projects, photography, and hobbies. 
-      Built with modern web technologies, it demonstrates clean design principles, responsive layouts, and 
-      seamless navigation across different sections.</p>
-      
-      <h3>Technology Stack</h3>
-      <p>The website is built using React 18 with Vite as the build tool, providing lightning-fast development 
-      and optimized production builds. Tailwind CSS handles all styling with a utility-first approach, making 
-      the design system consistent and maintainable across all pages.</p>
-      
-      <h3>Key Features</h3>
+      <p>This site started as a standard multi-page portfolio and has since been rebuilt into a single-page
+      layout with anchor navigation, dark mode, and a shared card/detail template that drives both the
+      Projects and Hobbies sections from the same underlying components.</p>
+
+      <h3>Stack</h3>
+      <p>React and React Router on Vite, styled entirely with Tailwind CSS. No component library, no CSS-in-JS —
+      just utility classes and a handful of hand-rolled SVG icons, matching the rest of the codebase.</p>
+
+      <h3>A few specifics</h3>
       <ul>
-        <li>Responsive design that works seamlessly across all devices</li>
-        <li>Client-side routing with React Router for smooth navigation</li>
-        <li>Dynamic project pages with embedded YouTube videos and GitHub links</li>
-        <li>Instagram post integration for photography galleries</li>
-        <li>Optimized asset loading and performance</li>
-        <li>Clean, modern UI with Tailwind CSS utility classes</li>
+        <li>Dark mode that respects your OS preference by default, with a manual toggle that persists and no flash of the wrong theme on load</li>
+        <li>A generalized <code>EntityCard</code> / <code>EntityDetail</code> pair that both Projects and Hobbies render through, instead of two near-identical templates</li>
+        <li>Anchor-based scroll navigation on the homepage, with real routed pages for project/hobby detail views</li>
+        <li>A self-hosted photo gallery with category filtering, alongside the Instagram embeds that were already there</li>
       </ul>
-      
-      <h3>Architecture</h3>
-      <p>The site follows a component-based architecture with reusable layout components (Header, Footer, Layout) 
-      and page-specific components. Project data is centralized in a JavaScript module for easy updates and 
-      maintenance. The build process uses Vite for optimal bundling and code splitting.</p>
-      
+
       <h3>Deployment</h3>
-      <p>Hosted on Hostinger with automatic deployment workflows. The production build is optimized for 
-      performance with minified assets, lazy loading, and proper caching strategies. The .htaccess configuration 
-      ensures React Router works correctly with client-side routing on the server.</p>
-      
-      <h3>Development Process</h3>
-      <p>This portfolio was built iteratively, starting with core pages and gradually adding features like
-      Instagram embeds, multiple project types, and hobby sections. The modular structure makes it easy to
-      add new projects and content without disrupting existing functionality.</p>
+      <p>Pushes to <code>main</code> trigger a GitHub Actions workflow that builds the site and FTP-deploys the
+      output to Hostinger — no manual upload step.</p>
     `,
   },
   {

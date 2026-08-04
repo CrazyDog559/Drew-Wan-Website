@@ -4,6 +4,7 @@ const StatsSection = () => {
   return (
     <section id="stats" className="bg-gray-50 dark:bg-gray-800 py-10 sm:py-14">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <p className="text-primary font-medium text-sm text-center mb-6">BY THE NUMBERS</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-center">
           {stats.map((stat) => (
             <div

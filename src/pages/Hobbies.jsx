@@ -6,10 +6,11 @@ const Hobbies = () => {
     <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <div className="text-center mb-12 sm:mb-16">
+          <p className="text-primary font-medium mb-3">BEYOND THE CODE</p>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">Hobbies</h1>
-          <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
           <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
-            When I'm not coding, you'll find me exploring the outdoors and pushing my limits.
+            Rock climbing, snowboarding, a four-year milk-bottle carnival rivalry, and whatever else
+            keeps things interesting outside of code.
           </p>
         </div>
 
