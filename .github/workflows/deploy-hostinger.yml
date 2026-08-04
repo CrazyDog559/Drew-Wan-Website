@@ -38,5 +38,5 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASSWORD }}
           port: ${{ secrets.HOSTINGER_PORT }}
           local-dir: ./dist/
-          server-dir: ${{ secrets.HOSTINGER_TARGET_DIR }}
+          server-dir: ${{ secrets.HOSTINGER_TARGET_DIR }}/
           dangerous-clean-slate: false
