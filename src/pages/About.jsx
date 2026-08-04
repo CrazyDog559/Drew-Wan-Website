@@ -3,22 +3,27 @@ import Button from '../components/common/Button';
 const About = () => {
   return (
     <div className="bg-white">
-      <div className="max-w-4xl mx-auto px-6 py-20">
-        <div className="text-center mb-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+        <div className="text-center mb-10 sm:mb-12">
           <p className="text-primary font-medium mb-4">ANDREW WAN</p>
-          <h1 className="text-5xl font-bold text-gray-900 mb-8">About me</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-8">About me</h1>
         </div>
 
         <div className="flex flex-col items-center mb-12">
-          <div className="w-64 h-64 rounded-full overflow-hidden border-8 border-gray-100 shadow-lg mb-8">
+          <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-8 border-gray-100 shadow-lg mb-8">
             <img 
-              src="/assets/Profile/me.jpeg" 
+              src="/assets/Profile/me-square-960.jpg" 
               alt="Andrew Wan"
+              width="960"
+              height="960"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-full object-cover"
             />
           </div>
 
-          <div className="prose prose-lg max-w-2xl text-gray-700 leading-relaxed space-y-6">
+          <div className="prose prose-base sm:prose-lg max-w-2xl text-gray-700 leading-relaxed space-y-6 px-1 sm:px-0">
             <p>
               I'm Andrew Wan, a Computer Engineering major with a deep passion for technology and innovation. 
               I'm currently studying at UCLA where I focus on data systems development and building practical 
@@ -33,7 +38,7 @@ const About = () => {
             </p>
             
             <p>
-              Outside of work, I'm passionate about photography and video editing, capturing memoral moments in my life.I also enjoy outdoor activities like rock climbing 
+              Outside of work, I'm passionate about photography and video editing, capturing memorable moments in my life.I also enjoy outdoor activities like rock climbing 
               and snowboarding, which help me stay active and push my limits in different ways.
             </p>
             

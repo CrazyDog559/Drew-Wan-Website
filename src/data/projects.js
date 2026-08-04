@@ -1,5 +1,53 @@
 export const projects = [
   {
+    id: 7,
+    slug: 'airwave',
+    title: 'AirWave',
+    excerpt: 'A multimodal gesture, voice, and face-tracking interface for hands-free system control.',
+    thumbnail: '/assets/Projects/AirWave/airwave-thumbnail.png',
+    githubUrl: 'https://github.com/CrazyDog559/AirWave',
+    date: '2026',
+    category: 'Human-Computer Interaction',
+    techStack: ['Computer Vision', 'Voice Recognition', 'Gesture Control', 'System Integration'],
+    youtubeVideoId: '764s4DPYQZg',
+    galleryImages: [
+      '/assets/Projects/AirWave/airwave-data.png',
+      '/assets/Projects/AirWave/airwave-data-2.png',
+    ],
+    resourceLinks: [
+      {
+        label: 'Final Report',
+        href: '/assets/Projects/AirWave/airwave-final-report.pdf',
+      },
+      {
+        label: 'Presentation',
+        href: '/assets/Projects/AirWave/airwave-presentation.pdf',
+      },
+    ],
+    description: `
+      <p>AirWave is a multimodal human-computer interaction project that combines gesture recognition, 
+      voice commands, face tracking, and system integration into a single hands-free interface.</p>
+
+      <h3>Project Overview</h3>
+      <p>The system was designed to make interaction more natural and accessible by supporting multiple
+      input modes. Gesture input handles direct physical control, voice commands provide quick verbal
+      interaction, and face tracking enables adaptive responses during use.</p>
+
+      <h3>Evaluation Highlights</h3>
+      <ul>
+        <li>Gesture recognition accuracy reached 85% to 95% across test runs</li>
+        <li>Voice command accuracy improved from 80% in quiet conditions to 90% after refinement</li>
+        <li>System integration latency stayed under one second end to end in all trials</li>
+        <li>Face tracking and volume-control features were validated across repeated test sessions</li>
+      </ul>
+
+      <h3>Why It Matters</h3>
+      <p>AirWave explores how multiple input methods can work together to create a more flexible and
+      intuitive control surface for real-world applications. The project demonstrates both technical
+      integration and practical user experience design.</p>
+    `,
+  },
+  {
     id: 1,
     slug: 'nas',
     title: 'Building a NAS',

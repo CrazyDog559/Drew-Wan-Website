@@ -10,11 +10,15 @@ const ProjectCard = ({ project }) => {
         <img 
           src={project.thumbnail} 
           alt={project.title}
+          width="1280"
+          height="720"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+      <div className="p-5 sm:p-6">
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
           {project.title}
         </h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">

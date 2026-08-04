@@ -28,20 +28,20 @@ const Photography = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Photography</h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Photography</h1>
           <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
             A collection of my photography work, from portrait sessions to landscape exploration.
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex justify-center space-x-4 mb-12">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-12">
           <button
             onClick={() => setActiveGallery('all')}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-5 py-2.5 rounded-lg font-medium transition-colors ${
               activeGallery === 'all'
                 ? 'bg-primary text-white'
                 : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -79,10 +79,11 @@ const Photography = () => {
                 <iframe
                   src={joshuaTreeInstagram}
                   width="100%"
-                  height="700"
+                  height="680"
                   frameBorder="0"
                   scrolling="no"
                   allowTransparency="true"
+                  loading="lazy"
                   className="w-full"
                 ></iframe>
               </div>
@@ -98,10 +99,11 @@ const Photography = () => {
                       <iframe
                         src={embedUrl}
                         width="100%"
-                        height="700"
+                        height="680"
                         frameBorder="0"
                         scrolling="no"
                         allowTransparency="true"
+                        loading="lazy"
                         className="w-full"
                       ></iframe>
                     </div>

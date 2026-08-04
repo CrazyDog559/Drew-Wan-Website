@@ -48,6 +48,28 @@ The build output will be in the `dist/` folder.
 3. The `.htaccess` file is already included to handle React Router client-side routing
 4. Your site will be live at Drewwan.com
 
+## Automatic Deploys With GitHub Actions
+
+This repo includes a workflow at `.github/workflows/deploy-hostinger.yml`.
+
+- Triggered automatically on push to `main`
+- Can also be run manually from the Actions tab (`workflow_dispatch`)
+- Builds with Vite and deploys `dist/` to Hostinger
+
+### Required GitHub Repository Secrets
+
+Add these in GitHub: **Settings -> Secrets and variables -> Actions -> New repository secret**
+
+- `HOSTINGER_HOST` (for example: `ftp.yourdomain.com`)
+- `HOSTINGER_USERNAME`
+- `HOSTINGER_PASSWORD`
+- `HOSTINGER_PORT` (usually `21` for FTP or `990` for FTPS)
+- `HOSTINGER_TARGET_DIR` (usually `/public_html/`)
+
+Set `HOSTINGER_HOST` to your FTP host (for example `ftp.yourdomain.com`).
+
+Once secrets are set, every push to `main` will automatically deploy your latest build.
+
 ## Project Structure
 
 ```

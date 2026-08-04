@@ -11,17 +11,17 @@ const ProjectDetail = () => {
 
   return (
     <div className="bg-white">
-      <div className="max-w-4xl mx-auto px-6 py-20">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 sm:mb-12">
           <p className="text-primary font-medium mb-2">{project.category}</p>
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">{project.title}</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 leading-tight">{project.title}</h1>
           <p className="text-gray-500">{project.date}</p>
         </div>
 
         {/* YouTube Video Embed */}
         {project.youtubeId && (
-          <div className="mb-12">
+          <div className="mb-10 sm:mb-12">
             <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
               <iframe
                 width="100%"
@@ -31,6 +31,7 @@ const ProjectDetail = () => {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
                 className="w-full h-full"
               ></iframe>
             </div>
@@ -39,7 +40,7 @@ const ProjectDetail = () => {
 
         {/* Multiple YouTube Videos */}
         {project.youtubeVideos && project.youtubeVideos.length > 0 && (
-          <div className="mb-12">
+          <div className="mb-10 sm:mb-12">
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">Project Videos</h3>
             <div className="space-y-6">
               {project.youtubeVideos.map((videoId, index) => (
@@ -52,6 +53,7 @@ const ProjectDetail = () => {
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
+                    loading="lazy"
                     className="w-full h-full"
                   ></iframe>
                 </div>
@@ -60,9 +62,39 @@ const ProjectDetail = () => {
           </div>
         )}
 
+        {/* Demo Video */}
+        {project.youtubeVideoId ? (
+          <div className="mb-10 sm:mb-12">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Demo Video</h3>
+            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${project.youtubeVideoId}`}
+                title={`${project.title} demo video`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+                className="w-full h-full"
+              ></iframe>
+            </div>
+          </div>
+        ) : project.demoVideo && (
+          <div className="mb-10 sm:mb-12">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Demo Video</h3>
+            <div className="rounded-lg overflow-hidden shadow-lg bg-black">
+              <video controls className="w-full h-auto" poster={project.thumbnail}>
+                <source src={project.demoVideo} type="video/quicktime" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        )}
+
         {/* Tech Stack */}
         {project.techStack && project.techStack.length > 0 && (
-          <div className="mb-12">
+          <div className="mb-10 sm:mb-12">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Tech Stack</h3>
             <div className="flex flex-wrap gap-2">
               {project.techStack.map((tech, index) => (
@@ -79,7 +111,7 @@ const ProjectDetail = () => {
 
         {/* GitHub Link */}
         {project.githubUrl && (
-          <div className="mb-12">
+          <div className="mb-10 sm:mb-12">
             <a
               href={project.githubUrl}
               target="_blank"
@@ -94,15 +126,55 @@ const ProjectDetail = () => {
           </div>
         )}
 
+        {/* Supporting Materials */}
+        {project.resourceLinks && project.resourceLinks.length > 0 && (
+          <div className="mb-10 sm:mb-12">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Supporting Materials</h3>
+            <div className="flex flex-col sm:flex-row gap-3">
+              {project.resourceLinks.map((resource) => (
+                <a
+                  key={resource.href}
+                  href={resource.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors"
+                >
+                  {resource.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Project Description */}
         <div 
-          className="prose prose-lg max-w-none text-gray-700 mb-12"
+          className="prose prose-base sm:prose-lg max-w-none text-gray-700 mb-10 sm:mb-12"
           dangerouslySetInnerHTML={{ __html: project.description }}
         />
 
+        {/* Gallery Images */}
+        {project.galleryImages && project.galleryImages.length > 0 && (
+          <div className="mb-10 sm:mb-12">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Project Gallery</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {project.galleryImages.map((imageSrc, index) => (
+                <div key={imageSrc} className="rounded-lg overflow-hidden shadow-lg bg-white border border-gray-100">
+                  <img
+                    src={imageSrc}
+                    alt={`${project.title} gallery ${index + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-auto object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Instagram Posts Gallery */}
         {project.instagramPosts && project.instagramPosts.length > 0 && (
-          <div className="mb-12">
+          <div className="mb-10 sm:mb-12">
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">Project Gallery</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.instagramPosts.map((postId, index) => (
@@ -116,6 +188,7 @@ const ProjectDetail = () => {
                         frameBorder="0"
                         scrolling="no"
                         allowTransparency="true"
+                        loading="lazy"
                         className="w-full"
                       ></iframe>
                     </div>
@@ -128,11 +201,13 @@ const ProjectDetail = () => {
 
         {/* YouTube Channel Link */}
         {project.youtubeChannel && (
-          <div className="mb-12">
+          <div className="mb-10 sm:mb-12">
             <div className="rounded-lg shadow-lg overflow-hidden">
               <img 
                 src="/assets/Projects/ProjectRender/PR banner Blue.png" 
                 alt="ProjectRender Banner"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto"
               />
               <div className="bg-gray-50 p-8 text-center">
@@ -154,7 +229,7 @@ const ProjectDetail = () => {
         )}
 
         {/* Navigation */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-gray-200">
           <Link 
             to="/projects"
             className="inline-flex items-center text-primary hover:text-primary-dark transition-colors font-medium"
