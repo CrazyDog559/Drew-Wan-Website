@@ -61,6 +61,13 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
+            <a
+              href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
+              download
+              className="inline-flex items-center rounded-lg border border-primary text-primary px-4 py-1.5 text-sm font-medium hover:bg-primary hover:text-white transition-colors"
+            >
+              Resume
+            </a>
             <ThemeToggle />
           </div>
 
@@ -99,6 +106,14 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
+            <a
+              href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
+              download
+              onClick={closeMenu}
+              className="block mt-1 rounded-xl px-4 py-3 text-sm font-medium text-center border border-primary text-primary hover:bg-primary hover:text-white transition-colors"
+            >
+              Resume
+            </a>
           </div>
         </div>
       </nav>

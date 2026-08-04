@@ -3,8 +3,9 @@ import Button from '../common/Button';
 
 const Hero = () => {
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+    <section className="relative bg-white dark:bg-gray-900 overflow-hidden">
+      <div className="tech-grid absolute inset-0 pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
         <div className="grid md:grid-cols-2 gap-10 lg:gap-12 items-center">
           <div>
             <p className="text-primary font-medium mb-4">COMPUTER ENGINEER</p>
@@ -26,7 +27,7 @@ const Hero = () => {
           </div>
           <div className="flex justify-center">
             <div className="relative">
-              <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-8 border-gray-100 dark:border-gray-800 shadow-xl">
+              <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-8 border-gray-100 dark:border-gray-800 shadow-xl ring-1 ring-primary/20 dark:ring-primary/30">
                 <img
                   src="/assets/Profile/GraduationPhoto.jpg"
                   alt="Andrew Wan"

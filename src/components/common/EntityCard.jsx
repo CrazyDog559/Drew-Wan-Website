@@ -4,7 +4,7 @@ const EntityCard = ({ item, basePath, ctaLabel }) => {
   return (
     <Link
       to={`${basePath}/${item.slug}`}
-      className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-lg dark:shadow-none dark:hover:bg-gray-700 transition-shadow duration-300"
+      className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-lg dark:shadow-none border border-gray-100 dark:border-gray-700 hover:border-primary/40 dark:hover:border-primary/50 dark:hover:bg-gray-700 transition-all duration-300"
     >
       <div className="aspect-video overflow-hidden">
         <img

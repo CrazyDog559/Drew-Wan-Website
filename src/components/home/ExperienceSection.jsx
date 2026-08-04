@@ -10,7 +10,7 @@ const ExperienceSection = () => {
           {experience.map((job) => (
             <div
               key={job.id}
-              className="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-6 sm:p-8"
+              className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-6 sm:p-8"
             >
               <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
                 <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">{job.role}</h3>
