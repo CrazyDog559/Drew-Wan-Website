@@ -121,7 +121,8 @@ export const projects = [
       <p>Check out the YouTube channel below to see build videos, tutorials, and stories from the people 
       who have benefited from ProjectRender.</p>
     `,
-     youtubeChannel: 'projectrender9925',
+    youtubeChannel: 'projectrender9925',
+    youtubeChannelBanner: '/assets/Projects/ProjectRender/PR banner Blue.png',
     instagramPosts: [
       'CcKHc_tuGKW',
       'CcI6Raqptey',
@@ -316,9 +317,74 @@ export const projects = [
       ensures React Router works correctly with client-side routing on the server.</p>
       
       <h3>Development Process</h3>
-      <p>This portfolio was built iteratively, starting with core pages and gradually adding features like 
-      Instagram embeds, multiple project types, and hobby sections. The modular structure makes it easy to 
+      <p>This portfolio was built iteratively, starting with core pages and gradually adding features like
+      Instagram embeds, multiple project types, and hobby sections. The modular structure makes it easy to
       add new projects and content without disrupting existing functionality.</p>
+    `,
+  },
+  {
+    id: 8,
+    slug: 'phlebotomy',
+    title: 'Phlebotomy Practice App',
+    excerpt: 'A full-stack study app for the phlebotomy certification exam, with backend and payments.',
+    thumbnail: '/assets/Projects/Phlebotomy/Thumbnail.svg',
+    liveUrl: 'https://phlebotomy.vercel.app/',
+    date: '2026',
+    category: 'Web Development',
+    techStack: ['React', 'Supabase', 'Stripe', 'Vercel'],
+    description: `
+      <p>Built to help me study for the NHA phlebotomy certification exam, and to learn how to ship a
+      complete website with a real backend and payments end to end.</p>
+
+      <h3>Project Overview</h3>
+      <p>The app quizzes users on phlebotomy exam material while doubling as a hands-on exercise in
+      shipping production infrastructure: authentication, a Postgres backend via Supabase, and paid
+      access via Stripe, all deployed on Vercel.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>Practice questions modeled after the NHA phlebotomy certification exam</li>
+        <li>Supabase-backed data storage and auth</li>
+        <li>Stripe integration for paid access</li>
+        <li>Deployed and hosted on Vercel</li>
+      </ul>
+    `,
+  },
+  {
+    id: 9,
+    slug: 'bruincast',
+    title: 'BruinCast',
+    excerpt: 'A site built while working in UCLA IT\'s BruinCast AV Operations role.',
+    thumbnail: '/assets/Projects/BruinCast/Thumbnail.svg',
+    liveUrl: 'https://bruin-cast.vercel.app/',
+    date: '2026',
+    category: 'Web Development',
+    techStack: ['React', 'Vercel'],
+    description: `
+      <p>Created while working in UCLA IT's BruinCast AV Operations role, supporting the classroom
+      recording and monitoring workflows that team relies on day to day.</p>
+    `,
+  },
+  {
+    id: 10,
+    slug: 'openclaw',
+    title: 'OpenClaw',
+    excerpt: 'An LLM-assisted automation agent running on a Mac mini with root-level system access.',
+    thumbnail: '/assets/Projects/OpenClaw/Thumbnail.svg',
+    date: '2026',
+    category: 'Automation',
+    techStack: ['macOS', 'LLM APIs', 'Scripting'],
+    description: `
+      <p>Configured OpenClaw/ClawdBot on a Mac mini to enable an LLM-assisted automation agent with
+      root-level permissions for executing local workflows and system tasks such as daily texts and
+      stock updates, reducing manual effort by 50%.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>Modular command/tool setup to trigger repeatable automations</li>
+        <li>Uses APIs and LLM tokens to drive local workflows</li>
+        <li>Automates recurring tasks like daily texts and stock updates</li>
+      </ul>
     `,
   },
 ];
