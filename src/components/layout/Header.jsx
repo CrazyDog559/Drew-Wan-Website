@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from '../common/ThemeToggle';
 import Icon from '../common/Icon';
+import ResumeButton from '../common/ResumeButton';
 import useScrollSpy from '../../hooks/useScrollSpy';
 
 const navItems = [
@@ -13,8 +14,6 @@ const navItems = [
   { id: 'experience', label: 'Experience', to: '/#experience' },
   { id: 'contact', label: 'Contact', to: '/#contact' },
 ];
-
-const RESUME_HREF = '/assets/Resume/Andrew-Wan-Computer-Engineering.pdf';
 
 // Hoisted so the scroll-spy observer isn't rebuilt on every render.
 const scrollSpyIds = navItems.filter((item) => !item.isRoute).map((item) => item.id);
@@ -121,15 +120,9 @@ const Header = () => {
           </div>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <a
-              href={RESUME_HREF}
-              download
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong px-3.5 py-2
-                         text-sm font-medium text-ink transition-colors hover:border-brand hover:text-brand"
-            >
-              <Icon name="download" className="h-4 w-4" />
+            <ResumeButton variant="secondary" size="sm">
               Résumé
-            </a>
+            </ResumeButton>
             <ThemeToggle />
           </div>
 
@@ -192,16 +185,14 @@ const Header = () => {
               </li>
             ))}
             <li>
-              <a
-                href={RESUME_HREF}
-                download
-                onClick={closeMenu}
-                className="mt-1 flex items-center justify-center gap-2 rounded-lg border border-brand/50
-                           px-4 py-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-ink"
+              <ResumeButton
+                variant="outline"
+                size="md"
+                className="mt-1 w-full py-3"
+                onActivate={closeMenu}
               >
-                <Icon name="download" className="h-4 w-4" />
-                Download résumé
-              </a>
+                View résumé
+              </ResumeButton>
             </li>
           </ul>
         </div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Icon from '../common/Icon';
 import Button from '../common/Button';
+import ResumeButton from '../common/ResumeButton';
 
 const socials = [
   { href: 'https://github.com/CrazyDog559', label: 'GitHub', icon: 'github' },
@@ -46,15 +47,9 @@ const Footer = () => (
           >
             drewkeithwan@gmail.com
           </Button>
-          <Button
-            href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
-            download
-            variant="secondary"
-            size="lg"
-            icon={<Icon name="download" className="h-4 w-4" />}
-          >
-            Download résumé
-          </Button>
+          <ResumeButton variant="secondary" size="lg">
+            View résumé
+          </ResumeButton>
         </div>
       </div>
     </section>

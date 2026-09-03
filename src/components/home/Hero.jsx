@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
+import ResumeButton from '../common/ResumeButton';
 
 const focusAreas = ['Embedded systems', 'Machine learning', 'Full-stack web'];
 
@@ -50,15 +51,9 @@ const Hero = () => (
             >
               See my projects
             </Button>
-            <Button
-              href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
-              download
-              variant="secondary"
-              size="lg"
-              icon={<Icon name="download" className="h-4 w-4" />}
-            >
-              Download résumé
-            </Button>
+            <ResumeButton variant="secondary" size="lg">
+              View résumé
+            </ResumeButton>
           </div>
 
           <p className="mt-6 text-sm text-faint">
