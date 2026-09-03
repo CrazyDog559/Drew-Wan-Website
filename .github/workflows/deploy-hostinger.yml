@@ -5,6 +5,18 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Connect and compare only — upload nothing. Use this to test credentials safely.'
+        type: boolean
+        default: false
+      log_level:
+        description: 'FTP log verbosity'
+        type: choice
+        options:
+          - standard
+          - verbose
+        default: standard
 
 concurrency:
   group: hostinger-deploy
@@ -32,11 +44,30 @@ jobs:
 
       - name: Deploy Dist To Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        env:
+          # GitHub now runs actions on Node 24, where "Happy Eyeballs"
+          # (autoSelectFamily) is on by default and aborts each connection
+          # attempt after 250 ms. Shared FTP hosts routinely take longer than
+          # that to accept, which surfaces as an immediate and very misleading
+          # AggregateError [ETIMEDOUT] on the control socket. Give each address
+          # a realistic window instead.
+          NODE_OPTIONS: --network-family-autoselection-attempt-timeout=5000
         with:
           server: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
           password: ${{ secrets.HOSTINGER_PASSWORD }}
-          port: ${{ secrets.HOSTINGER_PORT }}
+          # Hostinger listens on 21 for both plain FTP and explicit FTPS.
+          # There is no implicit-FTPS listener on 990.
+          port: ${{ secrets.HOSTINGER_PORT || 21 }}
+          # Set a HOSTINGER_PROTOCOL repository *variable* to 'ftps' to upgrade
+          # to explicit TLS on the same port. Not a secret — it is not sensitive
+          # and being able to see its value while debugging matters.
+          protocol: ${{ vars.HOSTINGER_PROTOCOL || 'ftp' }}
           local-dir: ./dist/
-          server-dir: ${{ secrets.HOSTINGER_TARGET_DIR }}/
+          server-dir: ${{ secrets.HOSTINGER_TARGET_DIR || '/public_html' }}/
+          # The action's own budget, raised from the 30s default: the first sync
+          # to a fresh server uploads far more than later incremental ones.
+          timeout: 60000
+          dry-run: ${{ inputs.dry_run || false }}
+          log-level: ${{ inputs.log_level || 'standard' }}
           dangerous-clean-slate: false
