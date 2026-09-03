@@ -77,16 +77,56 @@ push to `main`, and can also be triggered manually from the Actions tab.
 Add these repository secrets under
 **Settings → Secrets and variables → Actions → New repository secret**:
 
-| Secret | Example |
-|---|---|
-| `HOSTINGER_HOST` | `ftp.drewwan.com` |
-| `HOSTINGER_USERNAME` | your Hostinger FTP user |
-| `HOSTINGER_PASSWORD` | your Hostinger FTP password |
-| `HOSTINGER_PORT` | `21` (FTP) or `990` (FTPS) |
-| `HOSTINGER_TARGET_DIR` | `/public_html` |
+| Secret | Example | Notes |
+|---|---|---|
+| `HOSTINGER_HOST` | `ftp.drewwan.com` | The FTP hostname from hPanel, **not** the website URL |
+| `HOSTINGER_USERNAME` | your Hostinger FTP user | Often `uXXXXXXXXX` |
+| `HOSTINGER_PASSWORD` | your Hostinger FTP password | Not your hPanel login |
+| `HOSTINGER_PORT` | `21` | Defaults to `21` if unset. **Hostinger has no listener on 990** |
+| `HOSTINGER_TARGET_DIR` | `/public_html` | Defaults to `/public_html` if unset |
+
+There is also one optional repository **variable** (Settings → Secrets and
+variables → Actions → *Variables* tab — not a secret, because being able to read
+it while debugging matters):
+
+| Variable | Values | Default |
+|---|---|---|
+| `HOSTINGER_PROTOCOL` | `ftp` or `ftps` | `ftp` |
+
+Set it to `ftps` once a deploy succeeds — that upgrades to explicit TLS on the
+same port 21 so the password isn't sent in the clear. Leave it unset while
+debugging so you're only changing one thing at a time.
 
 > Never commit Hostinger credentials, tokens, or `.env` files. They belong in
-> GitHub Actions secrets only.
+> GitHub Actions secrets and variables only.
+
+### Testing the connection without deploying
+
+The workflow accepts a **dry run**: Actions → *Deploy To Hostinger* → *Run
+workflow* → tick **dry_run** (and optionally set **log_level** to `verbose`).
+It connects, authenticates, and diffs the file list, but uploads nothing — so
+it's safe to run repeatedly while sorting out credentials.
+
+### Troubleshooting `AggregateError [ETIMEDOUT]`
+
+If the deploy step fails in about a second with `ETIMEDOUT` on the *control
+socket*, the TCP connection never completed. In order of likelihood:
+
+1. **Wrong port.** Hostinger serves FTP and explicit FTPS on **21**. If
+   `HOSTINGER_PORT` is set to `990` or `22`, nothing is listening and it will
+   always time out. Delete the secret to fall back to `21`.
+2. **FTP disabled or IP-restricted.** hPanel → *Files* → *FTP Accounts* has an
+   allowlist. GitHub-hosted runners use a large, changing IP range, so an
+   allowlist will block them. Either clear the restriction or deploy from a
+   fixed IP.
+3. **Wrong host.** Use the FTP hostname from hPanel, not `drewwan.com`.
+4. **Node's Happy Eyeballs timeout.** Actions now run on Node 24, which aborts
+   each connection attempt after 250 ms by default. The workflow already raises
+   this to 5 s via `NODE_OPTIONS`; if you ever see a sub-second `ETIMEDOUT`
+   listing several IPv4 and IPv6 addresses, that setting has gone missing.
+
+`ENETUNREACH` on the IPv6 addresses in that error is normal and not the problem
+— GitHub runners have no IPv6 connectivity, so those attempts always fail.
 
 ### Manual fallback
 
