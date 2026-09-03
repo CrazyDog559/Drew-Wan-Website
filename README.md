@@ -141,6 +141,25 @@ socket*, the TCP connection never completed. In order of likelihood:
 `ENETUNREACH` on the IPv6 addresses in that error is normal and not the problem
 — GitHub runners have no IPv6 connectivity, so those attempts always fail.
 
+### Only one thing may write to `public_html`
+
+Hostinger's hPanel has its own Git auto-deployment (**Advanced → Git**) that
+clones the repository straight into `public_html` on every push. It does **not**
+run `npm run build`, so it publishes the *source* tree: the root `index.html`
+still points at `/src/main.jsx`, which no browser can execute, and the site
+renders as a blank page. It also leaves `package.json`, `src/`, `.git/`, and
+everything else publicly served.
+
+This project deploys the **built** `dist/` via the GitHub Action instead. If the
+hPanel Git integration is connected to this repo, disconnect it — running both
+means whichever finishes last wins, and the Git one always wins by producing an
+unbuildable site.
+
+To recover a `public_html` that already has a source checkout in it: delete its
+contents in hPanel → *File Manager* (or run the workflow once with
+`dangerous-clean-slate: true`, which wipes the remote directory before
+uploading — read that input's warning first), then run the workflow normally.
+
 ### Manual fallback
 
 ```bash
