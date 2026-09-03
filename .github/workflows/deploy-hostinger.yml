@@ -74,3 +74,41 @@ jobs:
           dry-run: ${{ inputs.dry_run || false }}
           log-level: ${{ inputs.log_level || 'standard' }}
           dangerous-clean-slate: false
+
+      # A green FTP upload does not prove the site actually updated: if the
+      # server-dir resolves outside the web root, the action happily uploads
+      # everything somewhere invisible and still reports success. Check the
+      # real site instead of trusting the exit code.
+      - name: Verify deployment
+        if: ${{ !inputs.dry_run }}
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://drewwan.com' }}
+        run: |
+          bundle=$(grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' dist/index.html | head -1)
+          if [ -z "$bundle" ]; then
+            echo "::error::Could not find the hashed bundle in dist/index.html — the build output looks wrong."
+            exit 1
+          fi
+          echo "Looking for $SITE_URL$bundle"
+
+          code=000
+          for attempt in 1 2 3 4 5; do
+            sleep 10
+            code=$(curl -sS -m 30 -o /dev/null -w '%{http_code}' -L "$SITE_URL$bundle" || echo 000)
+            echo "  attempt $attempt: $code"
+            [ "$code" = "200" ] && break
+          done
+          source_exposed=$(curl -sS -m 30 -o /dev/null -w '%{http_code}' -L "$SITE_URL/package.json" || echo 000)
+          echo "  /package.json: $source_exposed"
+
+          failed=0
+          if [ "$code" != "200" ]; then
+            echo "::error::$bundle is not reachable ($code). The upload did not land in the web root — check that HOSTINGER_TARGET_DIR/server-dir resolves to public_html."
+            failed=1
+          fi
+          if [ "$source_exposed" = "200" ]; then
+            echo "::error::/package.json is publicly served, so the repository source is sitting in the web root. Disable hPanel's Git auto-deploy (Advanced -> Git); it publishes unbuilt source and overwrites this deploy."
+            failed=1
+          fi
+          [ "$failed" = "0" ] && echo "Deployment verified."
+          exit $failed
