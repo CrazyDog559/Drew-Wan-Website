@@ -67,7 +67,7 @@ jobs:
           # Relative, matching the "File Upload Path" hPanel shows. This resolves
           # against the FTP login directory whether or not the account is
           # chrooted, unlike an absolute /public_html.
-          server-dir: ${{ secrets.HOSTINGER_TARGET_DIR || 'public_html' }}/
+          server-dir: /
           # The action's own budget, raised from the 30s default: the first sync
           # to a fresh server uploads far more than later incremental ones.
           timeout: 60000
