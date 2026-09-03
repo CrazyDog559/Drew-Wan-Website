@@ -1,29 +1,191 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Colors are stored as space-separated RGB channels so Tailwind can apply
+   opacity modifiers (e.g. `bg-brand/10`). Dark mode swaps the values only.
+--------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light;
+
+    --c-canvas: 255 255 255;
+    --c-surface: 247 249 252;
+    --c-raised: 255 255 255;
+
+    --c-line: 224 231 240;
+    --c-line-strong: 200 211 226;
+
+    --c-ink: 11 18 32;
+    --c-muted: 82 96 118;
+    --c-faint: 100 113 133;
+
+    --c-brand: 18 109 214;
+    --c-brand-strong: 17 90 178;
+    --c-brand-soft: 92 169 255;
+    --c-brand-ink: 255 255 255;
+
+    --c-accent: 176 88 10;
+    --c-accent-soft: 245 158 66;
+
+    --c-shadow: 12 27 56;
+
+    --grid-line: 18 109 214;
+    --grid-alpha: 0.075;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --c-canvas: 7 11 20;
+    --c-surface: 12 18 30;
+    --c-raised: 17 25 40;
+
+    --c-line: 32 44 66;
+    --c-line-strong: 50 66 94;
+
+    --c-ink: 237 243 252;
+    --c-muted: 158 173 195;
+    --c-faint: 122 138 162;
+
+    --c-brand: 92 169 255;
+    --c-brand-strong: 143 197 255;
+    --c-brand-soft: 36 144 254;
+    --c-brand-ink: 7 11 20;
+
+    --c-accent: 245 173 90;
+    --c-accent-soft: 245 158 66;
+
+    --c-shadow: 0 0 0;
+
+    --grid-line: 92 169 255;
+    --grid-alpha: 0.16;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Anything anchored by the sticky header needs clearance. */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  ::selection {
+    background-color: rgb(var(--c-brand) / 0.25);
+  }
+
+  /* A single, consistent, always-visible focus treatment. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-brand));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img, video, svg {
+    max-width: 100%;
+  }
 }
 
-body {
-  @apply transition-colors duration-200;
+/* ---------------------------------------------------------------------------
+   Components
+--------------------------------------------------------------------------- */
+@layer components {
+  /* Monospaced section label — the site's recurring "engineering" cue. */
+  .eyebrow {
+    @apply font-mono text-[0.7rem] sm:text-xs font-medium uppercase tracking-[0.18em] text-brand;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-pill border border-line bg-surface
+           px-2.5 py-1 font-mono text-[0.68rem] font-medium uppercase tracking-wider text-muted;
+  }
+
+  .chip-brand {
+    @apply border-brand/30 bg-brand/10 text-brand;
+  }
+
+  .link-underline {
+    @apply relative inline-flex items-center gap-1.5 font-medium text-brand
+           transition-colors hover:text-brand-strong;
+  }
 }
 
-.tech-grid {
-  background-image:
-    linear-gradient(to right, rgba(36, 144, 254, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(36, 144, 254, 0.07) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+/* ---------------------------------------------------------------------------
+   Utilities & decorative motifs
+--------------------------------------------------------------------------- */
+@layer utilities {
+  /* Blueprint grid used behind the hero and a few section headers. */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgb(var(--grid-line) / var(--grid-alpha)) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--grid-line) / var(--grid-alpha)) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 100%);
+  }
+
+  .mask-radial {
+    mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, black 30%, transparent 100%);
+  }
+
+  /* Reveal-on-scroll: opt-in via the useReveal hook. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.dark .tech-grid {
-  background-image:
-    linear-gradient(to right, rgba(36, 144, 254, 0.18) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(36, 144, 254, 0.18) 1px, transparent 1px);
-}
+/* ---------------------------------------------------------------------------
+   Motion preferences — honour the OS setting everywhere.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

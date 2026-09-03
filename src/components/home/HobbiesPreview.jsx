@@ -1,36 +1,35 @@
-import { Link } from 'react-router-dom';
+import Section from '../common/Section';
 import HobbyCard from '../common/HobbyCard';
+import Button from '../common/Button';
+import Icon from '../common/Icon';
 import { hobbies } from '../../data/hobbies';
 
-const HobbiesPreview = () => {
-  return (
-    <section id="hobbies" className="scroll-mt-24 bg-gray-50 dark:bg-gray-800 py-14 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
-          <div>
-            <p className="text-primary font-medium mb-3">BEYOND THE CODE</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">Hobbies</h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-lg">
-              Rock climbing, snowboarding, a four-year milk-bottle carnival rivalry, and whatever else
-              keeps things interesting outside of code.
-            </p>
-          </div>
-          <Link
-            to="/hobbies"
-            className="text-primary font-medium hover:text-primary-dark transition-colors whitespace-nowrap"
-          >
-            View All →
-          </Link>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {hobbies.map(hobby => (
-            <HobbyCard key={hobby.id} hobby={hobby} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+const HobbiesPreview = () => (
+  <Section
+    id="hobbies"
+    tone="surface"
+    bordered
+    eyebrow="Beyond the code"
+    title="Hobbies"
+    lede="Rock climbing, snowboarding, a four-year milk-bottle carnival rivalry, and whatever else keeps things interesting outside of code."
+    action={
+      <Button
+        to="/hobbies"
+        variant="secondary"
+        iconRight={<Icon name="arrowRight" className="h-4 w-4" />}
+      >
+        All hobbies
+      </Button>
+    }
+  >
+    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {hobbies.map((hobby, index) => (
+        <li key={hobby.id} className="flex">
+          <HobbyCard hobby={hobby} index={index} />
+        </li>
+      ))}
+    </ul>
+  </Section>
+);
 
 export default HobbiesPreview;

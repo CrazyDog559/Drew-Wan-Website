@@ -1,106 +1,230 @@
-# Drew Wan Portfolio Website
+# Drew Wan — Portfolio
 
-Modern portfolio website built with React, Tailwind CSS, and Vite.
+Personal portfolio for Andrew (Drew) Wan. Single-page React app with routed detail
+pages, built with Vite and Tailwind CSS and deployed to Hostinger.
 
-## Features
+Live at **drewwan.com**.
 
-- **Home Page**: Hero section with introduction and featured projects
-- **About Page**: Personal bio, profile photo, resume download, and social links
-- **Projects**: Blog-style project pages with YouTube embeds
-  - NAS Build project with video walkthrough
-- **Photography**: Filterable gallery with Portraits and Seattle collections
-- **Hobbies**: Sections for rock climbing and snowboarding
+---
 
-## Tech Stack
+## Tech stack
 
-- React 18
-- Tailwind CSS 3
-- React Router v6
-- Vite
+| | |
+|---|---|
+| Framework | React 19 + React Router 7 |
+| Build tool | Vite 7 |
+| Styling | Tailwind CSS 3 (+ `@tailwindcss/typography`) |
+| Package manager | npm |
+| Hosting | Hostinger (static, Apache) |
+| CI/CD | GitHub Actions → FTP deploy |
 
-## Development
+---
 
-Install dependencies:
+## Getting started
+
+Requires **Node.js 22+** and npm.
+
 ```bash
 npm install
 ```
 
-Run development server:
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:5173/`
+Then open <http://localhost:5173>.
 
-## Build for Production
+### Scripts
 
-Build the project:
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the Vite dev server with hot reload |
+| `npm run build` | Type-free production build into `dist/` |
+| `npm run preview` | Serve the built `dist/` locally to sanity-check it |
+| `npm run lint` | Run ESLint across the project |
+
+There is no TypeScript in this project, so there is no separate type-check step;
+`npm run lint` is the static-analysis gate. There is no test suite yet.
+
+---
+
+## Production build
+
 ```bash
 npm run build
 ```
 
-The build output will be in the `dist/` folder.
+**Output directory: `dist/`.** That folder is what gets deployed — its *contents*
+go into Hostinger's `public_html`, not the folder itself.
 
-## Deployment to Hostinger
+The build copies everything in `public/` to the root of `dist/`, including
+`public/.htaccess`, which supplies the SPA fallback, compression, caching, and
+MIME rules Hostinger needs.
 
-1. Build the project: `npm run build`
-2. Upload the contents of the `dist/` folder to your Hostinger public_html directory via FTP/SFTP
-3. The `.htaccess` file is already included to handle React Router client-side routing
-4. Your site will be live at Drewwan.com
+Vite's `base` is left at the default `/`, so the site must be served from a
+domain root (or subdomain root), not from a subdirectory. If it ever needs to
+live under a path, set `base` in `vite.config.js` to match.
 
-## Automatic Deploys With GitHub Actions
+---
 
-This repo includes a workflow at `.github/workflows/deploy-hostinger.yml`.
+## Deploying to Hostinger
 
-- Triggered automatically on push to `main`
-- Can also be run manually from the Actions tab (`workflow_dispatch`)
-- Builds with Vite and deploys `dist/` to Hostinger
+### Automatic (preferred)
 
-### Required GitHub Repository Secrets
+`.github/workflows/deploy-hostinger.yml` builds and FTP-deploys `dist/` on every
+push to `main`, and can also be triggered manually from the Actions tab.
 
-Add these in GitHub: **Settings -> Secrets and variables -> Actions -> New repository secret**
+Add these repository secrets under
+**Settings → Secrets and variables → Actions → New repository secret**:
 
-- `HOSTINGER_HOST` (for example: `ftp.yourdomain.com`)
-- `HOSTINGER_USERNAME`
-- `HOSTINGER_PASSWORD`
-- `HOSTINGER_PORT` (usually `21` for FTP or `990` for FTPS)
-- `HOSTINGER_TARGET_DIR` (usually `/public_html/`)
+| Secret | Example |
+|---|---|
+| `HOSTINGER_HOST` | `ftp.drewwan.com` |
+| `HOSTINGER_USERNAME` | your Hostinger FTP user |
+| `HOSTINGER_PASSWORD` | your Hostinger FTP password |
+| `HOSTINGER_PORT` | `21` (FTP) or `990` (FTPS) |
+| `HOSTINGER_TARGET_DIR` | `/public_html` |
 
-Set `HOSTINGER_HOST` to your FTP host (for example `ftp.yourdomain.com`).
+> Never commit Hostinger credentials, tokens, or `.env` files. They belong in
+> GitHub Actions secrets only.
 
-Once secrets are set, every push to `main` will automatically deploy your latest build.
+### Manual fallback
 
-## Project Structure
+```bash
+npm run build
+```
+
+Then upload the **contents** of `dist/` into `public_html` over SFTP/FTP,
+including the dot-file `.htaccess` (many FTP clients hide it by default — make
+sure hidden files are visible).
+
+### Hostinger notes
+
+- **Case sensitivity.** Hostinger's Linux filesystem is case-sensitive while
+  macOS is not, so a path that works locally can 404 in production. Asset paths
+  in `src/` are kept byte-for-byte identical to the filenames in `public/`.
+- **Deep links.** `/projects/neural-decoding` and friends only resolve because
+  of the rewrite rule in `.htaccess`. If refreshing a nested route starts
+  returning 404, check that `.htaccess` actually made it onto the server.
+- **Cache.** `index.html` is sent with `no-cache` so a new deploy is picked up
+  right away; fingerprinted `assets/*.js|css` are cached for a year.
+
+---
+
+## Project structure
 
 ```
 src/
 ├── components/
-│   ├── layout/         # Header, Footer, Layout
-│   └── common/         # Reusable components
-├── pages/              # Page components
-├── data/               # Project data
-└── index.css           # Global styles
+│   ├── layout/          Header, Footer, Layout
+│   ├── home/            Homepage sections (Hero, About, Projects, …)
+│   └── common/          Button, Section, PageHeader, EntityCard,
+│                        EntityDetail, PdfPreview, Icon, ThemeToggle
+├── pages/               Home, Projects, ProjectDetail, Hobbies,
+│                        HobbyDetail, Fiji, NotFound
+├── data/                projects.js, hobbies.js, skills.js, experience.js
+├── hooks/               useReveal, useScrollSpy, useScrollToHash, useTheme
+├── context/             ThemeContext
+└── index.css            Design tokens, base styles, utilities
 
 public/
-└── assets/             # Images, logos, resume
+├── .htaccess            SPA fallback + caching + MIME
+└── assets/
+    ├── Logo/            Brand marks
+    ├── Profile/         Portraits (originals + web-sized derivatives)
+    ├── Resume/          Résumé PDFs
+    └── Projects/        Per-project media, thumbnails, and papers
 ```
 
-## Adding New Projects
+### Design system
 
-Edit `src/data/projects.js` to add new projects with the following structure:
+Colors, spacing, and typography are driven by CSS custom properties declared in
+`src/index.css` (`:root` for light, `.dark` for dark) and surfaced to Tailwind
+through `tailwind.config.js`. To retheme the site, change the token values in
+one place rather than editing utility classes.
+
+Type pairing: **Inter** for UI and prose, **JetBrains Mono** for labels, metadata,
+and tech tags. Both are loaded from Google Fonts in `index.html`.
+
+Motion is opt-in through the `useReveal` hook and the `.reveal` class, and the
+whole system is disabled under `prefers-reduced-motion: reduce`.
+
+---
+
+## Adding content
+
+### A new project
+
+Add an entry to `src/data/projects.js`:
 
 ```javascript
 {
-  id: 2,
-  slug: 'project-slug',
+  id: 12,
+  slug: 'project-slug',              // becomes /projects/project-slug
   title: 'Project Title',
-  excerpt: 'Short description',
-  thumbnail: '/assets/Projects/folder/image.png',
-  youtubeId: 'video_id', // optional
-  date: 'Month Year',
-  category: 'Category',
-  techStack: ['Tech1', 'Tech2'],
-  description: `HTML content here`
+  excerpt: 'One or two sentences for the card and detail hero.',
+  thumbnail: '/assets/Projects/Folder/thumbnail-1280.jpg',
+  thumbnailAlt: 'Describe the image for screen readers',
+  featured: true,                    // show it on the homepage grid
+  category: 'Web Development',       // also drives the /projects filter
+  date: '2026',                      // optional
+  status: 'In progress',             // optional; badges the card instead of date
+  ctaLabel: 'What’s coming',        // optional; overrides "Case study"
+  context: 'UCLA ECE C143A',         // optional secondary label
+  collaborators: ['Name'],           // optional
+  techStack: ['React', 'Vite'],
+  liveUrl: 'https://…',              // optional
+  githubUrl: 'https://…',            // optional
+  youtubeId: 'video_id',             // optional
+  highlights: [                      // optional "key outcomes" cards
+    { label: 'Metric', value: '10.2×', detail: 'What it means.' },
+  ],
+  pdfEmbeds: [                       // optional inline PDF previews
+    { label: 'Paper title', description: 'Course', href: '/assets/…/paper.pdf' },
+  ],
+  resourceLinks: [                   // optional buttons in the detail hero
+    { label: 'Final report (PDF)', href: '/assets/…/paper.pdf' },
+  ],
+  description: `<p>HTML body content.</p>`,
 }
 ```
 
+### The Fiji page
+
+Fiji is a project entry like any other — it appears in `src/data/projects.js`
+and shows up in the grid — but it lives at `/projects/fiji` and is rendered by
+`src/pages/Fiji.jsx` instead of the shared detail template, because it is still
+an intentional "still in progress" state. `App.jsx` routes the static
+`projects/fiji` segment ahead of `projects/:slug` to make that work, and `/fiji`
+redirects there for older links.
+
+The `plannedSections` array at the top of `Fiji.jsx` is the scaffolding: replace
+a placeholder card with real content (photos, reflections, trip details) as it
+becomes available. Once there is enough to run through the normal template,
+delete the `projects/fiji` route and the page, and give the data entry a
+`description` — nothing else needs to change.
+
+The `status` field on a project (`'In progress'` here) renders a pulsing badge on
+its card in place of the date, so a placeholder always reads as deliberate.
+
+### Images
+
+Large source images should get a web-sized derivative before being referenced.
+The gallery and card thumbnails point at those derivatives, not the originals:
+
+```bash
+sips -s format jpeg -s formatOptions 72 --resampleHeightWidthMax 1400 input.jpg --out output.jpg
+```
+
+---
+
+## Accessibility & performance notes
+
+- Semantic landmarks (`header` / `nav` / `main` / `footer`), a skip link, and a
+  single global `:focus-visible` treatment.
+- All decorative graphics are `aria-hidden`; content images carry real alt text.
+- The mobile nav is `hidden` when closed (so it stays out of the tab order) and
+  closes on Escape, returning focus to its toggle button.
+- Photography is served from downscaled derivatives in
+  `public/assets/Projects/Photography/<collection>/web/`; the full-resolution
+  originals stay alongside them but are not shipped to the browser.

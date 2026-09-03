@@ -1,14 +1,20 @@
 export const skills = [
   {
+    id: 'languages',
     category: 'Languages',
+    icon: 'code',
     items: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'HTML/CSS', 'C++', 'Bash'],
   },
   {
+    id: 'ml-data',
     category: 'ML / Data',
+    icon: 'layers',
     items: ['TensorFlow', 'PyTorch', 'NumPy', 'Pandas', 'Power BI', 'Excel'],
   },
   {
+    id: 'frameworks',
     category: 'Frameworks & Tools',
+    icon: 'toolbox',
     items: [
       'React',
       'Node.js',
@@ -25,11 +31,15 @@ export const skills = [
     ],
   },
   {
+    id: 'hardware',
     category: 'Hardware / Embedded',
-    items: ['Raspberry Pi', 'STM32', 'IMU Sensors', 'MQTT'],
+    icon: 'chip',
+    items: ['Verilog', 'Raspberry Pi', 'STM32', 'IMU Sensors', 'MQTT'],
   },
   {
+    id: 'certifications',
     category: 'Certifications',
+    icon: 'badge',
     items: ['NHA Certified Phlebotomy Technician (CPT)'],
   },
 ];

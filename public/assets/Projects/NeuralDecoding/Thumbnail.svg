@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Neural decoding schematic: multi-channel biosignal traces feeding a sequence decoder that emits text">
+  <defs>
+    <linearGradient id="ndBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070B14"/>
+      <stop offset="55%" stop-color="#0C1626"/>
+      <stop offset="100%" stop-color="#102338"/>
+    </linearGradient>
+    <radialGradient id="ndGlow" cx="0.24" cy="0.28" r="0.62">
+      <stop offset="0%" stop-color="#2490FE" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#2490FE" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="ndGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#5CA9FF" stroke-opacity="0.09" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="ndAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5CA9FF"/>
+      <stop offset="100%" stop-color="#2490FE"/>
+    </linearGradient>
+    <linearGradient id="ndTrace" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5CA9FF" stop-opacity="0.15"/>
+      <stop offset="35%" stop-color="#5CA9FF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#5CA9FF" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#ndBg)"/>
+  <rect width="1280" height="720" fill="url(#ndGrid)"/>
+  <rect width="1280" height="720" fill="url(#ndGlow)"/>
+
+  <!-- Multi-channel signal traces -->
+  <g fill="none" stroke="url(#ndTrace)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M640 190c14 0 18-26 27-26s12 38 21 38 13-52 22-52 15 44 24 44 12-22 21-22 14 16 23 16 13-12 22-12h32"/>
+    <path d="M640 254c14 0 16-34 25-34s14 48 23 48 12-30 21-30 15 22 24 22 13-42 22-42 14 36 23 36 12-14 21-14h33"/>
+    <path d="M640 318c14 0 17-20 26-20s13 30 22 30 13-44 22-44 14 52 23 52 13-28 22-28 13 14 22 14 12-10 21-10h34"/>
+    <path d="M640 382c14 0 16-40 25-40s13 54 22 54 14-26 23-26 12 18 21 18 14-38 23-38 13 30 22 30 12-16 21-16h35"/>
+  </g>
+
+  <!-- Electrode ticks -->
+  <g fill="#5CA9FF">
+    <circle cx="632" cy="190" r="5"/>
+    <circle cx="632" cy="254" r="5"/>
+    <circle cx="632" cy="318" r="5"/>
+    <circle cx="632" cy="382" r="5"/>
+  </g>
+  <g stroke="#5CA9FF" stroke-opacity="0.3" stroke-width="2" fill="none">
+    <path d="M604 190h20M604 254h20M604 318h20M604 382h20"/>
+  </g>
+
+  <!-- Decoder block -->
+  <g>
+    <rect x="900" y="176" width="176" height="230" rx="18" fill="#111A28" stroke="#5CA9FF" stroke-opacity="0.45" stroke-width="2.5"/>
+    <g fill="none" stroke="#5CA9FF" stroke-opacity="0.55" stroke-width="2.2">
+      <rect x="932" y="212" width="112" height="34" rx="9"/>
+      <rect x="932" y="258" width="112" height="34" rx="9"/>
+      <rect x="932" y="304" width="112" height="34" rx="9"/>
+      <path d="M988 246v12M988 292v12"/>
+    </g>
+    <text x="988" y="376" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="17" letter-spacing="2.5" fill="#7A8AA2">CTC DECODER</text>
+  </g>
+
+  <!-- Decoded output -->
+  <g>
+    <path d="M1076 291h44" fill="none" stroke="#5CA9FF" stroke-opacity="0.5" stroke-width="2.5" stroke-dasharray="8 7"/>
+    <rect x="1120" y="264" width="104" height="54" rx="12" fill="#2490FE" fill-opacity="0.16" stroke="#5CA9FF" stroke-width="2.5"/>
+    <text x="1172" y="299" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="24" letter-spacing="3" fill="#EDF3FC">TEXT</text>
+  </g>
+
+  <!-- Error-rate curve: illustrative shape, values live in the write-up -->
+  <g transform="translate(640 452)">
+    <path d="M0 0h420" stroke="#5CA9FF" stroke-opacity="0.2" stroke-width="2"/>
+    <path d="M0 0v128" stroke="#5CA9FF" stroke-opacity="0.2" stroke-width="2"/>
+    <path d="M6 14c60 4 96 42 150 58s108 26 258 34" fill="none" stroke="#7A8AA2" stroke-width="2.6" stroke-opacity="0.55" stroke-dasharray="9 8"/>
+    <path d="M6 14C52 10 74 74 128 92s136 22 286 26" fill="none" stroke="#5CA9FF" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="414" cy="118" r="6" fill="#5CA9FF"/>
+    <text x="0" y="-14" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="16" letter-spacing="2.5" fill="#7A8AA2">ERROR RATE ↓</text>
+    <text x="430" y="122" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="16" fill="#5CA9FF">opt.</text>
+    <text x="430" y="58" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="16" fill="#7A8AA2">base</text>
+  </g>
+
+  <!-- Type -->
+  <g font-family="Inter, system-ui, sans-serif">
+    <rect x="96" y="248" width="6" height="66" rx="3" fill="url(#ndAccent)"/>
+    <text x="126" y="224" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="21" letter-spacing="5.5" fill="#5CA9FF">UCLA ECE C143A / C147A</text>
+    <text x="122" y="300" font-size="76" font-weight="700" fill="#EDF3FC">Neural</text>
+    <text x="122" y="372" font-size="76" font-weight="700" fill="#EDF3FC">Decoding</text>
+    <text x="126" y="424" font-size="27" fill="#9EADC3">Speech &amp; keystroke decoders, tuned</text>
+    <text x="126" y="484" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="19" letter-spacing="2" fill="#7A8AA2">PyTorch · GRU · BiLSTM · CTC</text>
+  </g>
+
+  <g stroke="#5CA9FF" stroke-opacity="0.35" stroke-width="2.5" fill="none">
+    <path d="M56 96V56h40M1184 56h40v40M1224 624v40h-40M96 664H56v-40"/>
+  </g>
+</svg>

@@ -1,333 +1,394 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Button from './Button';
+import Icon from './Icon';
+import PdfPreview from './PdfPreview';
+import useReveal from '../../hooks/useReveal';
+
+const Block = ({ title, children, className = '' }) => (
+  <section className={`mt-14 sm:mt-20 ${className}`}>
+    {title && (
+      <h2 className="mb-6 flex items-center gap-3 text-xl font-semibold sm:text-2xl">
+        <span aria-hidden="true" className="h-4 w-1 rounded-full bg-brand" />
+        {title}
+      </h2>
+    )}
+    {children}
+  </section>
+);
+
+const VideoFrame = ({ id, title, className = 'aspect-video' }) => (
+  <div className={`overflow-hidden rounded-card border border-line bg-black shadow-card ${className}`}>
+    <iframe
+      src={`https://www.youtube.com/embed/${id}`}
+      title={title}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      loading="lazy"
+      className="h-full w-full"
+      frameBorder="0"
+    />
+  </div>
+);
 
 const EntityDetail = ({ item, backLink }) => {
   const [activeGalleryCategory, setActiveGalleryCategory] = useState('all');
+  const headerRef = useReveal();
 
   const galleryImages =
     item.photoGallery && activeGalleryCategory !== 'all'
       ? item.photoGallery.find((g) => g.category === activeGalleryCategory)?.images ?? []
       : item.photoGallery?.flatMap((g) => g.images) ?? [];
 
+  const heroVideoId = item.youtubeId ?? item.youtubeVideoId;
+
   return (
-    <div className="bg-white dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-        {/* Header */}
-        <div className="text-center mb-10 sm:mb-12">
-          <p className="text-primary font-medium mb-2">{item.category}</p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-tight">{item.title}</h1>
-          {item.date && <p className="text-gray-500 dark:text-gray-400">{item.date}</p>}
+    <article className="bg-canvas">
+      {/* ---------------------------------------------------------------- */}
+      {/* Header                                                            */}
+      {/* ---------------------------------------------------------------- */}
+      <header className="relative overflow-hidden border-b border-line bg-surface">
+        <div
+          aria-hidden="true"
+          className="blueprint-grid mask-fade-b pointer-events-none absolute inset-0"
+        />
+        <div className="relative mx-auto max-w-4xl px-5 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-14">
+          <Link
+            to={backLink.to}
+            className="link-underline mb-8 font-mono text-xs uppercase tracking-wider"
+          >
+            <Icon name="arrowLeft" className="h-3.5 w-3.5" />
+            {backLink.label}
+          </Link>
+
+          <div ref={headerRef} className="reveal">
+            <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+              {item.category && <span className="eyebrow">{item.category}</span>}
+              {item.date && (
+                <>
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-line-strong" />
+                  <span className="font-mono text-xs uppercase tracking-wider text-faint">{item.date}</span>
+                </>
+              )}
+              {item.context && (
+                <>
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-line-strong" />
+                  <span className="font-mono text-xs uppercase tracking-wider text-faint">{item.context}</span>
+                </>
+              )}
+            </div>
+
+            <h1 className="text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.5rem]">
+              {item.title}
+            </h1>
+
+            {item.excerpt && (
+              <p className="mt-5 max-w-prose text-lg leading-relaxed text-muted">{item.excerpt}</p>
+            )}
+
+            {item.collaborators?.length > 0 && (
+              <p className="mt-4 text-sm text-faint">
+                <span className="font-mono text-xs uppercase tracking-wider">With</span>{' '}
+                {item.collaborators.join(', ')}
+              </p>
+            )}
+
+            {/* Primary actions */}
+            {(item.liveUrl || item.githubUrl || item.resourceLinks?.length > 0) && (
+              <div className="mt-8 flex flex-wrap gap-3">
+                {item.liveUrl && (
+                  <Button
+                    href={item.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="primary"
+                    iconRight={<Icon name="external" className="h-4 w-4" />}
+                  >
+                    Visit site
+                  </Button>
+                )}
+                {item.githubUrl && (
+                  <Button
+                    href={item.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="secondary"
+                    icon={<Icon name="github" className="h-4 w-4" />}
+                  >
+                    View source
+                  </Button>
+                )}
+                {item.resourceLinks?.map((resource) => (
+                  <Button
+                    key={resource.href}
+                    href={resource.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="secondary"
+                    icon={<Icon name="document" className="h-4 w-4" />}
+                  >
+                    {resource.label}
+                  </Button>
+                ))}
+              </div>
+            )}
+
+            {/* Tech stack */}
+            {item.techStack?.length > 0 && (
+              <div className="mt-8 border-t border-line pt-6">
+                <h2 className="sr-only">Technologies used</h2>
+                <ul className="flex flex-wrap gap-2">
+                  {item.techStack.map((tech) => (
+                    <li key={tech} className="chip chip-brand">{tech}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
+      </header>
 
-        {/* YouTube Video Embed */}
-        {item.youtubeId && (
-          <div className="mb-10 sm:mb-12">
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${item.youtubeId}`}
-                title={item.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full"
-              ></iframe>
-            </div>
-          </div>
-        )}
-
-        {/* Multiple YouTube Videos */}
-        {item.youtubeVideos && item.youtubeVideos.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Videos</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {item.youtubeVideos.map((videoId, index) => (
-                <div key={videoId} className="aspect-video rounded-lg overflow-hidden shadow-lg bg-black">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${videoId}`}
-                    title={`${item.title} - Video ${index + 1}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    loading="lazy"
-                    className="w-full h-full"
-                  ></iframe>
+      <div className="mx-auto max-w-4xl px-5 pb-20 sm:px-6 sm:pb-28">
+        {/* Key outcomes */}
+        {item.highlights?.length > 0 && (
+          <Block title="Key outcomes" className="mt-12 sm:mt-16">
+            <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {item.highlights.map((h) => (
+                <div
+                  key={h.label}
+                  className="rounded-card border border-line bg-raised p-5 shadow-card transition-colors hover:border-brand/40"
+                >
+                  <dt className="font-mono text-[0.68rem] uppercase tracking-wider text-faint">{h.label}</dt>
+                  <dd className="mt-2 text-2xl font-bold leading-none text-brand sm:text-[1.75rem]">{h.value}</dd>
+                  {h.detail && <p className="mt-2 text-sm leading-snug text-muted">{h.detail}</p>}
                 </div>
               ))}
-            </div>
-          </div>
+            </dl>
+          </Block>
         )}
 
-        {/* Shorts Videos (9:16) */}
-        {item.shortsVideos && item.shortsVideos.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Videos</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-              {item.shortsVideos.map((videoId) => (
-                <div key={videoId} className="rounded-lg overflow-hidden shadow-lg bg-black">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${videoId}`}
-                    title={`${item.title} short ${videoId}`}
-                    width="100%"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    loading="lazy"
-                    className="w-full aspect-[9/16]"
-                  ></iframe>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Hero video */}
+        {heroVideoId && (
+          <Block title="Demo" className="mt-12 sm:mt-16">
+            <VideoFrame id={heroVideoId} title={`${item.title} demo video`} />
+          </Block>
         )}
 
-        {/* Demo Video */}
-        {item.youtubeVideoId ? (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Demo Video</h3>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${item.youtubeVideoId}`}
-                title={`${item.title} demo video`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full"
-              ></iframe>
-            </div>
-          </div>
-        ) : item.demoVideo && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Demo Video</h3>
-            <div className="rounded-lg overflow-hidden shadow-lg bg-black">
-              <video controls className="w-full h-auto" poster={item.thumbnail}>
+        {!heroVideoId && item.demoVideo && (
+          <Block title="Demo" className="mt-12 sm:mt-16">
+            <div className="overflow-hidden rounded-card border border-line bg-black shadow-card">
+              <video controls className="h-auto w-full" poster={item.thumbnail} preload="metadata">
                 <source src={item.demoVideo} type="video/quicktime" />
                 Your browser does not support the video tag.
               </video>
             </div>
-          </div>
-        )}
-
-        {/* Tech Stack */}
-        {item.techStack && item.techStack.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Tech Stack</h3>
-            <div className="flex flex-wrap gap-2">
-              {item.techStack.map((tech, index) => (
-                <span
-                  key={index}
-                  className="px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Live Site + GitHub Links */}
-        {(item.liveUrl || item.githubUrl) && (
-          <div className="mb-10 sm:mb-12 flex flex-wrap gap-3">
-            {item.liveUrl && (
-              <a
-                href={item.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
-              >
-                Visit Site
-              </a>
-            )}
-            {item.githubUrl && (
-              <a
-                href={item.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-gray-900 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
-              >
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                </svg>
-                View on GitHub
-              </a>
-            )}
-          </div>
-        )}
-
-        {/* Supporting Materials */}
-        {item.resourceLinks && item.resourceLinks.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Supporting Materials</h3>
-            <div className="flex flex-col sm:flex-row gap-3">
-              {item.resourceLinks.map((resource) => (
-                <a
-                  key={resource.href}
-                  href={resource.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                >
-                  {resource.label}
-                </a>
-              ))}
-            </div>
-          </div>
+          </Block>
         )}
 
         {/* Description */}
         {item.description && (
           <div
-            className="prose prose-base sm:prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 mb-10 sm:mb-12"
+            className="prose prose-base sm:prose-lg mt-14 max-w-none sm:mt-20
+                       prose-headings:scroll-mt-28 prose-headings:font-semibold prose-headings:tracking-tight
+                       prose-h3:text-xl sm:prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-3
+                       prose-p:leading-relaxed prose-li:leading-relaxed
+                       prose-code:rounded prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5
+                       prose-code:font-mono prose-code:text-[0.85em] prose-code:before:content-none prose-code:after:content-none"
             dangerouslySetInnerHTML={{ __html: item.description }}
           />
         )}
 
-        {/* Photo Gallery (with category filter) */}
-        {item.photoGallery && item.photoGallery.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Gallery</h3>
-            <div className="flex flex-wrap gap-3 mb-6">
-              <button
-                onClick={() => setActiveGalleryCategory('all')}
-                className={`px-5 py-2.5 rounded-lg font-medium transition-colors ${
-                  activeGalleryCategory === 'all'
-                    ? 'bg-primary text-white'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              >
-                All
-              </button>
-              {item.photoGallery.map((group) => (
-                <button
-                  key={group.category}
-                  onClick={() => setActiveGalleryCategory(group.category)}
-                  className={`px-5 py-2.5 rounded-lg font-medium transition-colors ${
-                    activeGalleryCategory === group.category
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  {group.category} ({group.images.length})
-                </button>
+        {/* Embedded documents */}
+        {item.pdfEmbeds?.length > 0 && (
+          <Block title={item.pdfEmbeds.length > 1 ? 'The papers' : 'The paper'}>
+            <div className="space-y-6">
+              {item.pdfEmbeds.map((pdf) => (
+                <PdfPreview
+                  key={pdf.href}
+                  href={pdf.href}
+                  label={pdf.label}
+                  description={pdf.description}
+                />
               ))}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-              {galleryImages.map((imageSrc, index) => (
-                <div key={imageSrc} className="aspect-square rounded-lg overflow-hidden shadow-sm bg-gray-100 dark:bg-gray-800">
-                  <img
-                    src={imageSrc}
-                    alt={`${item.title} gallery ${index + 1}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          </Block>
         )}
 
-        {/* Gallery Images (flat list) */}
-        {item.galleryImages && item.galleryImages.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Project Gallery</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Multiple 16:9 videos */}
+        {item.youtubeVideos?.length > 0 && (
+          <Block title="Videos">
+            <div className="grid gap-5 sm:grid-cols-2">
+              {item.youtubeVideos.map((videoId, index) => (
+                <VideoFrame key={videoId} id={videoId} title={`${item.title} — video ${index + 1}`} />
+              ))}
+            </div>
+          </Block>
+        )}
+
+        {/* Vertical shorts */}
+        {item.shortsVideos?.length > 0 && (
+          <Block title="Clips">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {item.shortsVideos.map((videoId, index) => (
+                <VideoFrame
+                  key={videoId}
+                  id={videoId}
+                  title={`${item.title} — clip ${index + 1}`}
+                  className="aspect-[9/16]"
+                />
+              ))}
+            </div>
+          </Block>
+        )}
+
+        {/* Flat image gallery */}
+        {item.galleryImages?.length > 0 && (
+          <Block title="Results & figures">
+            <div className="grid gap-5 sm:grid-cols-2">
               {item.galleryImages.map((imageSrc, index) => (
-                <div key={imageSrc} className="rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                <figure
+                  key={imageSrc}
+                  className="overflow-hidden rounded-card border border-line bg-raised shadow-card"
+                >
                   <img
                     src={imageSrc}
-                    alt={`${item.title} gallery ${index + 1}`}
+                    alt={item.galleryAlts?.[index] ?? `${item.title} figure ${index + 1}`}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-auto object-contain"
+                    className="h-auto w-full object-contain"
+                  />
+                </figure>
+              ))}
+            </div>
+          </Block>
+        )}
+
+        {/* Filterable photo gallery */}
+        {item.photoGallery?.length > 0 && (
+          <Block title="Gallery">
+            <div
+              role="tablist"
+              aria-label="Filter gallery by collection"
+              className="mb-6 flex flex-wrap gap-2"
+            >
+              {[{ category: 'all', images: galleryImages }, ...item.photoGallery].map((group) => {
+                const isActive = activeGalleryCategory === group.category;
+                const label = group.category === 'all' ? 'All' : group.category;
+                const count =
+                  group.category === 'all'
+                    ? item.photoGallery.reduce((sum, g) => sum + g.images.length, 0)
+                    : group.images.length;
+                return (
+                  <button
+                    key={group.category}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setActiveGalleryCategory(group.category)}
+                    className={`rounded-pill border px-4 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${
+                      isActive
+                        ? 'border-brand bg-brand text-brand-ink'
+                        : 'border-line bg-raised text-muted hover:border-brand/50 hover:text-brand'
+                    }`}
+                  >
+                    {label} <span className="opacity-70">({count})</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {galleryImages.length === 0 ? (
+              <p className="rounded-card border border-dashed border-line px-6 py-12 text-center text-sm text-faint">
+                No photos in this collection yet.
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 sm:gap-4">
+                {galleryImages.map((imageSrc, index) => (
+                  <div
+                    key={imageSrc}
+                    className="aspect-square overflow-hidden rounded-lg border border-line bg-surface"
+                  >
+                    <img
+                      src={imageSrc}
+                      alt={`${item.title} — ${
+                        activeGalleryCategory === 'all' ? 'collection' : activeGalleryCategory
+                      } photo ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </Block>
+        )}
+
+        {/* Instagram embeds */}
+        {item.instagramPosts?.length > 0 && (
+          <Block title={item.photoGallery ? 'On Instagram' : 'Project updates'}>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {item.instagramPosts.map((postId) => (
+                <div
+                  key={postId}
+                  className="overflow-hidden rounded-card border border-line bg-white shadow-card"
+                >
+                  <iframe
+                    src={`https://www.instagram.com/p/${postId}/embed`}
+                    title={`Instagram post ${postId}`}
+                    width="100%"
+                    height="640"
+                    frameBorder="0"
+                    scrolling="no"
+                    loading="lazy"
+                    className="w-full"
                   />
                 </div>
               ))}
             </div>
-          </div>
+          </Block>
         )}
 
-        {/* Instagram Posts Gallery */}
-        {item.instagramPosts && item.instagramPosts.length > 0 && (
-          <div className="mb-10 sm:mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
-              {item.photoGallery ? 'Follow Along on Instagram' : 'Project Gallery'}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {item.instagramPosts.map((postId, index) => (
-                <div key={index} className="flex justify-center">
-                  <div className="w-full max-w-md">
-                    <div className="rounded-lg overflow-hidden shadow-lg bg-white">
-                      <iframe
-                        src={`https://www.instagram.com/p/${postId}/embed`}
-                        width="100%"
-                        height="700"
-                        frameBorder="0"
-                        scrolling="no"
-                        allowtransparency="true"
-                        loading="lazy"
-                        className="w-full"
-                      ></iframe>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* YouTube Channel Link */}
+        {/* YouTube channel callout */}
         {item.youtubeChannel && (
-          <div className="mb-10 sm:mb-12">
-            <div className="rounded-lg shadow-lg overflow-hidden">
+          <Block title="YouTube channel">
+            <div className="overflow-hidden rounded-card border border-line bg-raised shadow-card">
               {item.youtubeChannelBanner && (
                 <img
                   src={item.youtubeChannelBanner}
-                  alt={`${item.title} banner`}
+                  alt={`${item.title} YouTube channel banner`}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-auto"
+                  className="h-auto w-full"
                 />
               )}
-              <div className="bg-gray-50 dark:bg-gray-800 p-8 text-center">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">YouTube Channel</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Follow the project journey and watch build videos on YouTube
+              <div className="flex flex-col items-center gap-4 border-t border-line bg-surface p-8 text-center">
+                <p className="max-w-md text-muted">
+                  Build videos, tutorials, and stories from the project live on YouTube.
                 </p>
-                <a
+                <Button
                   href={`https://www.youtube.com/@${item.youtubeChannel}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block px-8 py-4 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors text-lg"
+                  variant="primary"
+                  icon={<Icon name="youtube" className="h-4 w-4" />}
                 >
-                  Visit YouTube Channel
-                </a>
+                  Visit the channel
+                </Button>
               </div>
             </div>
-          </div>
+          </Block>
         )}
 
-        {/* Navigation */}
-        <div className="mt-12 sm:mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <Link
-            to={backLink.to}
-            className="inline-flex items-center text-primary hover:text-primary-dark transition-colors font-medium"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+        {/* Footer nav */}
+        <nav className="mt-16 border-t border-line pt-8 sm:mt-24">
+          <Link to={backLink.to} className="link-underline">
+            <Icon name="arrowLeft" className="h-4 w-4" />
             {backLink.label}
           </Link>
-        </div>
+        </nav>
       </div>
-    </div>
+    </article>
   );
 };
 

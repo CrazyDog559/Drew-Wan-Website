@@ -1,36 +1,59 @@
+import Section from '../common/Section';
+import Icon from '../common/Icon';
+import useReveal from '../../hooks/useReveal';
 import { skills } from '../../data/skills';
 
-const SkillsSection = () => {
-  return (
-    <section id="skills" className="scroll-mt-24 bg-white dark:bg-gray-900 py-14 sm:py-20">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <p className="text-primary font-medium mb-3">WHAT I WORK WITH</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100">Skills & Toolkit</h2>
-        </div>
+const SkillGroup = ({ group, index }) => {
+  const ref = useReveal({ delay: Math.min(index, 4) * 70 });
 
-        <div className="grid sm:grid-cols-2 gap-8 sm:gap-10">
-          {skills.map((group) => (
-            <div key={group.category}>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
-                {group.category}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+  return (
+    <div
+      ref={ref}
+      className="reveal group rounded-card border border-line bg-raised p-6 shadow-card
+                 transition-colors duration-300 hover:border-brand/40"
+    >
+      <h3 className="mb-5 flex items-center gap-3">
+        <span
+          aria-hidden="true"
+          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg
+                     border border-line bg-surface text-brand transition-colors
+                     group-hover:border-brand/40 group-hover:bg-brand/10"
+        >
+          <Icon name={group.icon} className="h-[1.15rem] w-[1.15rem]" />
+        </span>
+        <span className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-ink">
+          {group.category}
+        </span>
+      </h3>
+      <ul className="flex flex-wrap gap-2">
+        {group.items.map((item) => (
+          <li
+            key={item}
+            className="rounded-lg border border-line bg-surface px-2.5 py-1.5 text-[0.82rem]
+                       font-medium text-muted transition-colors hover:border-brand/40 hover:text-ink"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
+
+const SkillsSection = () => (
+  <Section
+    id="skills"
+    width="wide"
+    eyebrow="What I work with"
+    title="Skills & toolkit"
+    lede="The languages, frameworks, and hardware I reach for most — grouped by where they actually get used."
+  >
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {skills.map((group, index) => (
+        <SkillGroup key={group.id} group={group} index={index} />
+      ))}
+    </div>
+  </Section>
+);
 
 export default SkillsSection;
