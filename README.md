@@ -77,13 +77,22 @@ push to `main`, and can also be triggered manually from the Actions tab.
 Add these repository secrets under
 **Settings → Secrets and variables → Actions → New repository secret**:
 
-| Secret | Example | Notes |
+Take all of these from **hPanel → Files → FTP Accounts → FTP Details**.
+
+| Secret | Value | Notes |
 |---|---|---|
-| `HOSTINGER_HOST` | `ftp.drewwan.com` | The FTP hostname from hPanel, **not** the website URL |
-| `HOSTINGER_USERNAME` | your Hostinger FTP user | Often `uXXXXXXXXX` |
-| `HOSTINGER_PASSWORD` | your Hostinger FTP password | Not your hPanel login |
+| `HOSTINGER_HOST` | the **FTP IP** | See the warning below — do **not** use the domain |
+| `HOSTINGER_USERNAME` | the **FTP Username** | Looks like `uXXXXXXXXX`, not your hPanel login |
+| `HOSTINGER_PASSWORD` | the FTP password | Not your hPanel password |
 | `HOSTINGER_PORT` | `21` | Defaults to `21` if unset. **Hostinger has no listener on 990** |
-| `HOSTINGER_TARGET_DIR` | `/public_html` | Defaults to `/public_html` if unset |
+| `HOSTINGER_TARGET_DIR` | `public_html` | Matches hPanel's *File Upload Path*. Defaults to `public_html` if unset |
+
+> **Use the FTP IP, not the domain name.** `drewwan.com` resolves to Hostinger's
+> CDN edge (`*.cdn.hstgr.net`), which does not run an FTP server, and
+> `ftp.drewwan.com` has no DNS record at all. Pointing `HOSTINGER_HOST` at either
+> makes the deploy hang and fail with `AggregateError [ETIMEDOUT]`. The **FTP IP**
+> field in hPanel is the only address that answers on port 21. Re-check it after
+> any Hostinger account or plan migration, since the IP can change.
 
 There is also one optional repository **variable** (Settings → Secrets and
 variables → Actions → *Variables* tab — not a secret, because being able to read
@@ -93,9 +102,11 @@ it while debugging matters):
 |---|---|---|
 | `HOSTINGER_PROTOCOL` | `ftp` or `ftps` | `ftp` |
 
-Set it to `ftps` once a deploy succeeds — that upgrades to explicit TLS on the
-same port 21 so the password isn't sent in the clear. Leave it unset while
-debugging so you're only changing one thing at a time.
+`ftps` upgrades to explicit TLS on the same port 21 so the password isn't sent
+in the clear. Worth trying once a deploy succeeds — but note that connecting by
+**IP** means the server's TLS certificate won't match the address, which can
+fail validation. Test it with a dry run before relying on it, and fall back to
+`ftp` if it errors.
 
 > Never commit Hostinger credentials, tokens, or `.env` files. They belong in
 > GitHub Actions secrets and variables only.
@@ -112,14 +123,16 @@ it's safe to run repeatedly while sorting out credentials.
 If the deploy step fails in about a second with `ETIMEDOUT` on the *control
 socket*, the TCP connection never completed. In order of likelihood:
 
-1. **Wrong port.** Hostinger serves FTP and explicit FTPS on **21**. If
+1. **Wrong host.** By far the most common cause. Read the IPv4 addresses out of
+   the error and compare them with the **FTP IP** in hPanel. If they differ,
+   `HOSTINGER_HOST` is pointing at the website/CDN rather than the FTP server.
+2. **Wrong port.** Hostinger serves FTP and explicit FTPS on **21**. If
    `HOSTINGER_PORT` is set to `990` or `22`, nothing is listening and it will
    always time out. Delete the secret to fall back to `21`.
-2. **FTP disabled or IP-restricted.** hPanel → *Files* → *FTP Accounts* has an
+3. **FTP disabled or IP-restricted.** hPanel → *Files* → *FTP Accounts* has an
    allowlist. GitHub-hosted runners use a large, changing IP range, so an
    allowlist will block them. Either clear the restriction or deploy from a
    fixed IP.
-3. **Wrong host.** Use the FTP hostname from hPanel, not `drewwan.com`.
 4. **Node's Happy Eyeballs timeout.** Actions now run on Node 24, which aborts
    each connection attempt after 250 ms by default. The workflow already raises
    this to 5 s via `NODE_OPTIONS`; if you ever see a sub-second `ETIMEDOUT`
@@ -148,6 +161,9 @@ sure hidden files are visible).
   returning 404, check that `.htaccess` actually made it onto the server.
 - **Cache.** `index.html` is sent with `no-cache` so a new deploy is picked up
   right away; fingerprinted `assets/*.js|css` are cached for a year.
+- **CDN.** The domain is served through Hostinger's CDN (`*.cdn.hstgr.net`),
+  which caches in front of the origin. If a deploy succeeds but the old site is
+  still showing, purge the cache in hPanel before assuming the upload failed.
 
 ---
 
