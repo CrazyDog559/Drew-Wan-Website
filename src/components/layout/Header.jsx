@@ -9,7 +9,6 @@ const navItems = [
   { id: 'about', label: 'About', to: '/#about' },
   { id: 'projects', label: 'Projects', to: '/#projects', routeMatch: '/projects' },
   { id: 'hobbies', label: 'Hobbies', to: '/#hobbies', routeMatch: '/hobbies' },
-  { id: 'fiji', label: 'Fiji', to: '/fiji', routeMatch: '/fiji', isRoute: true },
   { id: 'skills', label: 'Skills', to: '/#skills' },
   { id: 'experience', label: 'Experience', to: '/#experience' },
   { id: 'contact', label: 'Contact', to: '/#contact' },

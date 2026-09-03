@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Placeholder card for the Fiji mission trip write-up: a blueprint-style island outline marked as in progress">
+  <defs>
+    <linearGradient id="fjBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070B14"/>
+      <stop offset="55%" stop-color="#0C1626"/>
+      <stop offset="100%" stop-color="#102338"/>
+    </linearGradient>
+    <radialGradient id="fjGlow" cx="0.24" cy="0.28" r="0.62">
+      <stop offset="0%" stop-color="#2490FE" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#2490FE" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="fjGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#5CA9FF" stroke-opacity="0.09" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fjAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F5AD5A"/>
+      <stop offset="100%" stop-color="#C76A14"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#fjBg)"/>
+  <rect width="1280" height="720" fill="url(#fjGrid)"/>
+  <rect width="1280" height="720" fill="url(#fjGlow)"/>
+
+  <!-- Blueprint archipelago: deliberately schematic, not a real chart -->
+  <g fill="none" stroke="#5CA9FF" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Depth rings -->
+    <g stroke-opacity="0.16" stroke-width="2" stroke-dasharray="6 10">
+      <ellipse cx="880" cy="360" rx="290" ry="212"/>
+      <ellipse cx="880" cy="360" rx="228" ry="164"/>
+      <ellipse cx="880" cy="360" rx="166" ry="118"/>
+    </g>
+
+    <!-- Main island -->
+    <path
+      d="M772 322c14-26 44-40 78-34 22 4 34-8 58-6 30 3 44 22 62 36 20 15 42 14 52 32 11 20-4 40-24 50-24 12-30 30-56 36-30 7-52-6-80-4-26 2-46 12-68 0-24-13-26-42-30-64-4-20-6-30 8-46Z"
+      stroke-opacity="0.6" stroke-width="3"/>
+    <!-- Secondary islands -->
+    <path d="M700 254c10-14 32-16 44-6 10 8 6 22-6 28-14 7-32 3-40-6-4-5-2-11 2-16Z"
+      stroke-opacity="0.45" stroke-width="2.5"/>
+    <path d="M1010 486c12-12 34-10 42 2 6 10-4 22-18 25-16 3-30-4-32-13-1-6 2-10 8-14Z"
+      stroke-opacity="0.45" stroke-width="2.5"/>
+    <path d="M746 500c9-9 26-8 32 2 4 8-4 17-14 19-13 2-24-3-25-10-1-4 2-8 7-11Z"
+      stroke-opacity="0.35" stroke-width="2.5"/>
+
+    <!-- Inland contour hint -->
+    <path d="M820 372c18-22 46-30 74-22s42 30 38 52" stroke-opacity="0.28" stroke-width="2" stroke-dasharray="7 9"/>
+
+    <!-- Dashed route -->
+    <path d="M604 566c66-46 96-102 168-128 68-25 118 6 178-24" stroke-opacity="0.4" stroke-width="2.5" stroke-dasharray="10 10"/>
+  </g>
+
+  <!-- Location marker -->
+  <g>
+    <path d="M894 300a30 30 0 0 0-30 30c0 21 30 54 30 54s30-33 30-54a30 30 0 0 0-30-30Z"
+      fill="none" stroke="#F5AD5A" stroke-width="3.5" stroke-linejoin="round"/>
+    <circle cx="894" cy="329" r="10" fill="#F5AD5A"/>
+  </g>
+
+  <!-- Grid coordinate ticks -->
+  <g stroke="#5CA9FF" stroke-opacity="0.25" stroke-width="2">
+    <path d="M880 108v34M880 578v34M596 360h34M1130 360h34"/>
+  </g>
+
+  <!-- Type -->
+  <g font-family="Inter, system-ui, sans-serif">
+    <rect x="96" y="248" width="6" height="66" rx="3" fill="url(#fjAccent)"/>
+    <text x="126" y="224" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="21" letter-spacing="5.5" fill="#5CA9FF">MEDICAL MISSION TRIP</text>
+    <text x="122" y="308" font-size="96" font-weight="700" fill="#EDF3FC">Fiji</text>
+    <text x="126" y="360" font-size="27" fill="#9EADC3">Photos and reflections to come</text>
+    <text x="126" y="424" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="19" letter-spacing="2" fill="#7A8AA2">Write-up not published yet</text>
+  </g>
+
+  <g stroke="#5CA9FF" stroke-opacity="0.35" stroke-width="2.5" fill="none">
+    <path d="M56 96V56h40M1184 56h40v40M1224 624v40h-40M96 664H56v-40"/>
+  </g>
+</svg>

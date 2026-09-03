@@ -313,29 +313,20 @@ export const projects = [
     `,
   },
   {
-    id: 10,
-    slug: 'openclaw',
-    title: 'OpenClaw',
-    excerpt: 'An LLM-assisted automation agent running on a Mac mini with root-level system access.',
-    thumbnail: '/assets/Projects/OpenClaw/Thumbnail.svg',
+    id: 12,
+    slug: 'fiji',
+    title: 'Fiji Mission Trip',
+    excerpt:
+      'A medical mission trip to Fiji — the most recent of several I’ve joined. The write-up is still coming together.',
+    thumbnail: '/assets/Projects/Fiji/Thumbnail.svg',
     thumbnailAlt:
-      'Illustration of a terminal session wired to scheduled automation tasks running on a Mac mini',
+      'Blueprint-style island outline marked with a location pin and a still-in-progress label',
     featured: true,
-    date: '2026',
-    category: 'Automation',
-    techStack: ['macOS', 'LLM APIs', 'Scripting'],
-    description: `
-      <p>Configured OpenClaw/ClawdBot on a Mac mini to enable an LLM-assisted automation agent with
-      root-level permissions for executing local workflows and system tasks such as daily texts and
-      stock updates, reducing manual effort by 50%.</p>
-
-      <h3>Key Features</h3>
-      <ul>
-        <li>Modular command/tool setup to trigger repeatable automations</li>
-        <li>Uses APIs and LLM tokens to drive local workflows</li>
-        <li>Automates recurring tasks like daily texts and stock updates</li>
-      </ul>
-    `,
+    // Rendered by src/pages/Fiji.jsx rather than the shared detail template,
+    // until there is real content to run through it.
+    status: 'In progress',
+    ctaLabel: 'What’s coming',
+    category: 'Community',
   },
   {
     id: 9,
@@ -353,6 +344,30 @@ export const projects = [
     description: `
       <p>Created while working in UCLA IT's BruinCast AV Operations role, supporting the classroom
       recording and monitoring workflows that team relies on day to day.</p>
+    `,
+  },
+  {
+    id: 10,
+    slug: 'openclaw',
+    title: 'OpenClaw',
+    excerpt: 'An LLM-assisted automation agent running on a Mac mini with root-level system access.',
+    thumbnail: '/assets/Projects/OpenClaw/Thumbnail.svg',
+    thumbnailAlt:
+      'Illustration of a terminal session wired to scheduled automation tasks running on a Mac mini',
+    date: '2026',
+    category: 'Automation',
+    techStack: ['macOS', 'LLM APIs', 'Scripting'],
+    description: `
+      <p>Configured OpenClaw/ClawdBot on a Mac mini to enable an LLM-assisted automation agent with
+      root-level permissions for executing local workflows and system tasks such as daily texts and
+      stock updates, reducing manual effort by 50%.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li>Modular command/tool setup to trigger repeatable automations</li>
+        <li>Uses APIs and LLM tokens to drive local workflows</li>
+        <li>Automates recurring tasks like daily texts and stock updates</li>
+      </ul>
     `,
   },
   {

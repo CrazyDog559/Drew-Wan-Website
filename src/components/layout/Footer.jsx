@@ -12,7 +12,7 @@ const socials = [
 const siteLinks = [
   { to: '/projects', label: 'Projects' },
   { to: '/hobbies', label: 'Hobbies' },
-  { to: '/fiji', label: 'Fiji Mission Trip' },
+  { to: '/projects/fiji', label: 'Fiji Mission Trip' },
   { to: '/#skills', label: 'Skills' },
   { to: '/#experience', label: 'Experience' },
 ];

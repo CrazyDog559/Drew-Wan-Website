@@ -15,11 +15,14 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="projects" element={<Projects />} />
+          {/* Static segment wins over the dynamic one, so Fiji keeps its own
+              bespoke in-progress page while still living under /projects. */}
+          <Route path="projects/fiji" element={<Fiji />} />
           <Route path="projects/:slug" element={<ProjectDetail />} />
           <Route path="hobbies" element={<Hobbies />} />
           <Route path="hobbies/:slug" element={<HobbyDetail />} />
-          <Route path="fiji" element={<Fiji />} />
           <Route path="about" element={<Navigate to="/#about" replace />} />
+          <Route path="fiji" element={<Navigate to="/projects/fiji" replace />} />
           <Route path="photography" element={<Navigate to="/hobbies/photography" replace />} />
           <Route path="*" element={<NotFound />} />
         </Route>

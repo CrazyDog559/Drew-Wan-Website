@@ -51,11 +51,19 @@ const EntityCard = ({ item, basePath, ctaLabel, index = 0 }) => {
               {item.category}
             </span>
           )}
-          {item.date && (
+          {item.status ? (
+            <span className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-pill bg-black/60 px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-wider text-accent-soft backdrop-blur-sm">
+              <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-pulse-soft rounded-full bg-accent-soft" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-soft" />
+              </span>
+              {item.status}
+            </span>
+          ) : item.date ? (
             <span className="absolute right-3 top-3 rounded-pill bg-black/45 px-2.5 py-1 font-mono text-[0.65rem] text-white/90 backdrop-blur-sm">
               {item.date}
             </span>
-          )}
+          ) : null}
         </div>
 
         {/* Body */}
@@ -102,7 +110,7 @@ const EntityCard = ({ item, basePath, ctaLabel, index = 0 }) => {
               className="flex shrink-0 items-center gap-1 font-mono text-[0.7rem] uppercase tracking-wider text-brand
                          transition-transform duration-300 group-hover:translate-x-0.5"
             >
-              {ctaLabel}
+              {item.ctaLabel ?? ctaLabel}
               <Icon name="arrowRight" className="h-3.5 w-3.5" />
             </span>
           </div>

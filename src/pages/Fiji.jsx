@@ -58,6 +58,7 @@ const Fiji = () => {
   return (
     <div className="bg-canvas">
       <PageHeader
+        backLink={{ to: '/projects', label: 'Back to Projects' }}
         eyebrow="Fiji mission trip"
         title="Fiji"
         lede="I joined a medical mission trip to Fiji — the most recent of several I've been part of. I'm still putting the write-up together."

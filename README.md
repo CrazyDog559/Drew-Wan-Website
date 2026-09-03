@@ -168,6 +168,8 @@ Add an entry to `src/data/projects.js`:
   featured: true,                    // show it on the homepage grid
   category: 'Web Development',       // also drives the /projects filter
   date: '2026',                      // optional
+  status: 'In progress',             // optional; badges the card instead of date
+  ctaLabel: 'What’s coming',        // optional; overrides "Case study"
   context: 'UCLA ECE C143A',         // optional secondary label
   collaborators: ['Name'],           // optional
   techStack: ['React', 'Vite'],
@@ -189,10 +191,21 @@ Add an entry to `src/data/projects.js`:
 
 ### The Fiji page
 
-`src/pages/Fiji.jsx` currently renders an intentional "still in progress" state.
-The `plannedSections` array at the top of the file is the scaffolding: replace a
-placeholder card with real content (photos, reflections, trip details) as it
-becomes available.
+Fiji is a project entry like any other — it appears in `src/data/projects.js`
+and shows up in the grid — but it lives at `/projects/fiji` and is rendered by
+`src/pages/Fiji.jsx` instead of the shared detail template, because it is still
+an intentional "still in progress" state. `App.jsx` routes the static
+`projects/fiji` segment ahead of `projects/:slug` to make that work, and `/fiji`
+redirects there for older links.
+
+The `plannedSections` array at the top of `Fiji.jsx` is the scaffolding: replace
+a placeholder card with real content (photos, reflections, trip details) as it
+becomes available. Once there is enough to run through the normal template,
+delete the `projects/fiji` route and the page, and give the data entry a
+`description` — nothing else needs to change.
+
+The `status` field on a project (`'In progress'` here) renders a pulsing badge on
+its card in place of the date, so a placeholder always reads as deliberate.
 
 ### Images
 

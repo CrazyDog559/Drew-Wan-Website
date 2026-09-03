@@ -84,7 +84,7 @@ const AboutSection = () => {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/fiji" className="link-underline text-sm">
+              <Link to="/projects/fiji" className="link-underline text-sm">
                 Read about the Fiji mission trip
                 <Icon name="arrowRight" className="h-4 w-4" />
               </Link>
