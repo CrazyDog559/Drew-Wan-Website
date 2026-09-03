@@ -7,9 +7,9 @@ const Layout = () => {
   useScrollToHash();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+    <div className="flex min-h-screen flex-col bg-canvas">
       <Header />
-      <main className="flex-grow">
+      <main id="main" className="flex-grow">
         <Outlet />
       </main>
       <Footer />

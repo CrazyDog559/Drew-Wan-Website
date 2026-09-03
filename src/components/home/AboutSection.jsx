@@ -1,63 +1,105 @@
+import { Link } from 'react-router-dom';
+import Icon from '../common/Icon';
+import useReveal from '../../hooks/useReveal';
 import { otherInterests } from '../../data/hobbies';
 
+const quickFacts = [
+  { label: 'Based in', value: 'Southern California' },
+  { label: 'Studying', value: 'M.Eng. EECS, UC Irvine' },
+  { label: 'Graduated', value: 'B.S. CompE, UCLA' },
+  { label: 'Teaching', value: 'Code Ninjas' },
+];
+
 const AboutSection = () => {
+  const bodyRef = useReveal();
+  const asideRef = useReveal({ delay: 80 });
+
   return (
-    <section id="about" className="scroll-mt-24 bg-white dark:bg-gray-900 py-14 sm:py-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-10 sm:mb-12">
-          <p className="text-primary font-medium mb-4">ANDREW WAN</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8">About me</h2>
+    <section id="about" className="border-b border-line bg-surface py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+        <div className="mb-10 sm:mb-14">
+          <p className="eyebrow mb-3 flex items-center gap-2.5">
+            <span aria-hidden="true" className="inline-block h-px w-6 bg-brand/60" />
+            Andrew Wan
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
+            About me
+          </h2>
         </div>
 
-        <div className="flex flex-col items-center">
-          <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden border-8 border-gray-100 dark:border-gray-800 shadow-lg mb-8">
-            <img
-              src="/assets/Profile/LeverPhoto.jpg"
-              alt="Andrew Wan"
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover"
-            />
-          </div>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
+          {/* Portrait + facts */}
+          <aside ref={asideRef} className="reveal lg:sticky lg:top-28 lg:self-start">
+            <figure className="m-0 overflow-hidden rounded-card border border-line bg-raised shadow-card">
+              <img
+                src="/assets/Profile/lever-960.jpg"
+                alt="Andrew Wan working on a piece of hardware"
+                width="960"
+                height="960"
+                loading="lazy"
+                decoding="async"
+                className="aspect-square w-full object-cover"
+              />
+            </figure>
 
-          <div className="prose prose-base sm:prose-lg dark:prose-invert max-w-2xl text-gray-700 dark:text-gray-300 leading-relaxed space-y-6 px-1 sm:px-0">
-            <p>
-              I'm a Computer Engineering student at UCLA (Film & TV minor), currently finishing a Master's
-              in Electrical Engineering and Computer Science at UC Irvine. I like projects that sit at the
-              intersection of hardware and software — the kind where you can point at something and say,
-              "I built that."
-            </p>
+            <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line">
+              {quickFacts.map((fact) => (
+                <div key={fact.label} className="bg-raised p-4">
+                  <dt className="font-mono text-[0.66rem] uppercase tracking-[0.16em] text-faint">
+                    {fact.label}
+                  </dt>
+                  <dd className="mt-1.5 text-sm font-medium leading-snug text-ink">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
 
-            <p>
-              That shows up in things like AirWave, a gesture- and voice-controlled interface built around
-              a Raspberry Pi and IMU sensors, and a home NAS I put together from spare parts and set up with
-              RAID 5 for redundancy. I've also spent time on the data side — writing automation scripts and
-              LLM-assisted workflows for qualitative research, and building out AV tooling for UCLA's
-              BruinCast operation.
-            </p>
+          {/* Bio */}
+          <div ref={bodyRef} className="reveal">
+            <div className="space-y-5 text-base leading-relaxed text-muted sm:text-[1.0625rem] sm:leading-[1.75]">
+              <p>
+                I&apos;m a Computer Engineering graduate from UCLA with a minor in Film and Television,
+                and I&apos;m currently finishing my Master&apos;s in Electrical Engineering and Computer
+                Science at UC Irvine. I enjoy building projects that combine hardware and software,
+                especially when the result is something tangible I can point to and say, &ldquo;I built
+                that.&rdquo;
+              </p>
+              <p>
+                Some of those projects include AirWave, a gesture and voice-controlled interface built
+                with a Raspberry Pi and IMU sensors, and a home NAS assembled from spare parts with RAID
+                5 for redundancy. I&apos;ve also worked with data and automation, creating scripts and
+                LLM-assisted workflows for qualitative research and developing AV tools for UCLA&apos;s
+                BruinCast operation.
+              </p>
+              <p>
+                I teach programming fundamentals to kids at Code Ninjas. When I&apos;m away from a
+                computer, you&apos;ll usually find me rock climbing, snowboarding, or trying a new sport.
+                I&apos;ve also joined several medical mission trips, most recently in Fiji.
+              </p>
+              <p>
+                Most projects on this site include a write-up, video, or source code. I enjoy documenting
+                how things come together and sharing what I learn along the way. Take a look around, and
+                feel free to reach out if you&apos;d like to talk shop.
+              </p>
+            </div>
 
-            <p>
-              Outside of engineering, I teach programming fundamentals to kids at Code Ninjas, and I'm usually
-              somewhere outdoors — rock climbing, snowboarding, or trying whatever sport I haven't attempted
-              yet. I've also been on a handful of medical mission trips, most recently to Fiji.
-            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/fiji" className="link-underline text-sm">
+                Read about the Fiji mission trip
+                <Icon name="arrowRight" className="h-4 w-4" />
+              </Link>
+            </div>
 
-            <p>
-              Most of the projects on this site come with the write-up, video, or code behind them, since I
-              like documenting the process as much as the result. Take a look around, and feel free to reach
-              out if you want to talk shop.
-            </p>
-          </div>
-
-          <div className="mt-10 flex flex-wrap justify-center gap-2 max-w-xl">
-            {otherInterests.map((interest) => (
-              <span
-                key={interest}
-                className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium"
-              >
-                {interest}
-              </span>
-            ))}
+            <div className="mt-10 border-t border-line pt-6">
+              <h3 className="mb-4 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-faint">
+                Also into
+              </h3>
+              <ul className="flex flex-wrap gap-2">
+                {otherInterests.map((interest) => (
+                  <li key={interest} className="chip">{interest}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="OpenClaw: terminal window wired to scheduled automation tasks on a Mac mini">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#111827"/>
-      <stop offset="100%" stop-color="#374151"/>
+    <linearGradient id="ocBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070B14"/>
+      <stop offset="55%" stop-color="#0C1626"/>
+      <stop offset="100%" stop-color="#102338"/>
+    </linearGradient>
+    <radialGradient id="ocGlow" cx="0.24" cy="0.28" r="0.62">
+      <stop offset="0%" stop-color="#2490FE" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#2490FE" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="ocGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#5CA9FF" stroke-opacity="0.09" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="ocAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5CA9FF"/>
+      <stop offset="100%" stop-color="#2490FE"/>
     </linearGradient>
   </defs>
-  <rect width="1280" height="720" fill="url(#bg)"/>
-  <text x="640" y="350" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="700" fill="#ffffff">OpenClaw</text>
-  <text x="640" y="410" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#9ca3af">LLM Automation Agent</text>
+
+  <rect width="1280" height="720" fill="url(#ocBg)"/>
+  <rect width="1280" height="720" fill="url(#ocGrid)"/>
+  <rect width="1280" height="720" fill="url(#ocGlow)"/>
+
+  <!-- Terminal window -->
+  <g>
+    <rect x="676" y="150" width="392" height="238" rx="16" fill="#0A121F" stroke="#5CA9FF" stroke-opacity="0.4" stroke-width="2.5"/>
+    <path d="M676 190h392" stroke="#5CA9FF" stroke-opacity="0.28" stroke-width="2"/>
+    <g>
+      <circle cx="704" cy="170" r="6" fill="#F87171"/>
+      <circle cx="724" cy="170" r="6" fill="#FBBF24"/>
+      <circle cx="744" cy="170" r="6" fill="#34D399"/>
+    </g>
+    <g font-family="'JetBrains Mono', ui-monospace, monospace" font-size="18">
+      <text x="702" y="232" fill="#34D399">$</text>
+      <text x="726" y="232" fill="#EDF3FC">openclaw run daily-brief</text>
+      <text x="702" y="266" fill="#7A8AA2">→ sending 07:00 text…</text>
+      <text x="702" y="300" fill="#7A8AA2">→ fetching market close…</text>
+      <text x="702" y="334" fill="#5CA9FF">✓ 2 tasks completed</text>
+      <text x="702" y="368" fill="#34D399">$</text>
+      <rect x="726" y="352" width="12" height="20" fill="#34D399" fill-opacity="0.8"/>
+    </g>
+  </g>
+
+  <!-- Mac mini + task fan-out -->
+  <g fill="none" stroke="#5CA9FF" stroke-opacity="0.5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="700" y="452" width="196" height="62" rx="14"/>
+    <circle cx="734" cy="483" r="7"/>
+    <path d="M760 483h104" stroke-opacity="0.3"/>
+    <path d="M798 514v42h-84M798 556h84" stroke-dasharray="9 8"/>
+    <rect x="596" y="530" width="120" height="52" rx="12"/>
+    <rect x="880" y="530" width="120" height="52" rx="12"/>
+    <path d="M896 483h84v-52" stroke-dasharray="9 8"/>
+    <rect x="924" y="398" width="120" height="52" rx="12"/>
+  </g>
+  <g font-family="'JetBrains Mono', ui-monospace, monospace" font-size="15" fill="#9EADC3" letter-spacing="1.5">
+    <text x="618" y="562">TEXTS</text>
+    <text x="900" y="562">STOCKS</text>
+    <text x="944" y="430">SCRIPTS</text>
+  </g>
+
+  <!-- Type -->
+  <g font-family="Inter, system-ui, sans-serif">
+    <rect x="96" y="248" width="6" height="66" rx="3" fill="url(#ocAccent)"/>
+    <text x="126" y="224" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="21" letter-spacing="5.5" fill="#5CA9FF">LOCAL AUTOMATION AGENT</text>
+    <text x="122" y="306" font-size="84" font-weight="700" fill="#EDF3FC">OpenClaw</text>
+    <text x="126" y="356" font-size="27" fill="#9EADC3">LLM-driven workflows on a Mac mini</text>
+    <text x="126" y="424" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="19" letter-spacing="2" fill="#7A8AA2">macOS · LLM APIs · Scripting</text>
+  </g>
+
+  <g stroke="#5CA9FF" stroke-opacity="0.35" stroke-width="2.5" fill="none">
+    <path d="M56 96V56h40M1184 56h40v40M1224 624v40h-40M96 664H56v-40"/>
+  </g>
 </svg>

@@ -1,120 +1,209 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from '../common/ThemeToggle';
+import Icon from '../common/Icon';
 import useScrollSpy from '../../hooks/useScrollSpy';
 
 const navItems = [
   { id: 'about', label: 'About', to: '/#about' },
   { id: 'projects', label: 'Projects', to: '/#projects', routeMatch: '/projects' },
   { id: 'hobbies', label: 'Hobbies', to: '/#hobbies', routeMatch: '/hobbies' },
+  { id: 'fiji', label: 'Fiji', to: '/fiji', routeMatch: '/fiji', isRoute: true },
   { id: 'skills', label: 'Skills', to: '/#skills' },
   { id: 'experience', label: 'Experience', to: '/#experience' },
+  { id: 'contact', label: 'Contact', to: '/#contact' },
 ];
 
-const contactItem = { id: 'contact', label: 'Contact', to: '#contact' };
+const RESUME_HREF = '/assets/Resume/Andrew-Wan-Computer-Engineering.pdf';
+
+// Hoisted so the scroll-spy observer isn't rebuilt on every render.
+const scrollSpyIds = navItems.filter((item) => !item.isRoute).map((item) => item.id);
 
 const Header = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const menuButtonRef = useRef(null);
   const isHome = location.pathname === '/';
-  const activeId = useScrollSpy(
-    [...navItems.map((item) => item.id), contactItem.id],
-    { enabled: isHome }
-  );
 
-  const isActive = (item) => {
-    if (item.routeMatch && location.pathname.startsWith(item.routeMatch)) return true;
-    if (isHome) return activeId === item.id;
-    return false;
-  };
+  const activeId = useScrollSpy(scrollSpyIds, { enabled: isHome });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const closeMenu = () => setMenuOpen(false);
 
-  const allItems = [...navItems, contactItem];
+  // Escape closes the mobile menu and returns focus to the toggle.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
+
+  const isActive = (item) => {
+    if (item.routeMatch && location.pathname.startsWith(item.routeMatch)) return true;
+    if (item.isRoute) return false;
+    return isHome && activeId === item.id;
+  };
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm dark:shadow-none dark:border-b dark:border-gray-800 sticky top-0 z-50">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center space-x-2 sm:space-x-3" onClick={closeMenu}>
+    <header
+      className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+        scrolled
+          ? 'border-line bg-canvas/85 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-canvas/70'
+          : 'border-transparent bg-canvas'
+      }`}
+    >
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50
+                   focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-sm
+                   focus:font-medium focus:text-brand-ink"
+      >
+        Skip to content
+      </a>
+
+      <nav aria-label="Primary" className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-4 sm:h-[4.5rem]">
+          <Link
+            to="/"
+            onClick={closeMenu}
+            className="group flex items-center gap-2.5 rounded-lg"
+            aria-label="Andrew Wan — home"
+          >
             <img
               src="/assets/Logo/logo-256.png"
-              alt="Drew Wan Logo"
+              alt=""
               width="256"
               height="256"
               loading="eager"
               decoding="async"
-              className="h-10 sm:h-12 w-auto"
+              className="h-9 w-auto transition-transform duration-300 group-hover:scale-105 sm:h-10"
             />
-            <span className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap">Andrew Wan</span>
+            <span className="flex flex-col leading-none">
+              <span className="text-[0.95rem] font-semibold tracking-tight sm:text-base">Andrew Wan</span>
+              <span className="mt-0.5 hidden font-mono text-[0.65rem] uppercase tracking-[0.16em] text-faint sm:block">
+                Computer Engineer
+              </span>
+            </span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
-            {allItems.map((item) => (
+          {/* Desktop nav */}
+          <div className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => (
               <Link
                 key={item.id}
                 to={item.to}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item) ? 'text-primary' : 'text-gray-600 dark:text-gray-300'
+                aria-current={isActive(item) ? 'page' : undefined}
+                className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  isActive(item) ? 'text-brand' : 'text-muted hover:text-ink'
                 }`}
               >
                 {item.label}
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-brand transition-transform duration-300 ${
+                    isActive(item) ? 'scale-x-100' : 'scale-x-0'
+                  }`}
+                />
               </Link>
             ))}
+          </div>
+
+          <div className="hidden items-center gap-2 lg:flex">
             <a
-              href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
+              href={RESUME_HREF}
               download
-              className="inline-flex items-center rounded-lg border border-primary text-primary px-4 py-1.5 text-sm font-medium hover:bg-primary hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong px-3.5 py-2
+                         text-sm font-medium text-ink transition-colors hover:border-brand hover:text-brand"
             >
-              Resume
+              <Icon name="download" className="h-4 w-4" />
+              Résumé
             </a>
             <ThemeToggle />
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          {/* Mobile controls */}
+          <div className="flex items-center gap-1.5 lg:hidden">
             <ThemeToggle />
             <button
+              ref={menuButtonRef}
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300"
-              aria-label="Toggle navigation menu"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line
+                         text-ink transition-colors hover:border-brand hover:text-brand"
+              aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
               onClick={() => setMenuOpen((open) => !open)}
             >
-              <span className="sr-only">Toggle navigation menu</span>
-              <div className="space-y-1.5">
-                <span className={`block h-0.5 w-5 rounded-full bg-current transition-transform ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
-                <span className={`block h-0.5 w-5 rounded-full bg-current transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-                <span className={`block h-0.5 w-5 rounded-full bg-current transition-transform ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
-              </div>
+              <span className="space-y-1.5">
+                <span
+                  className={`block h-0.5 w-5 rounded-full bg-current transition-transform duration-300 ${
+                    menuOpen ? 'translate-y-2 rotate-45' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-5 rounded-full bg-current transition-opacity duration-200 ${
+                    menuOpen ? 'opacity-0' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-5 rounded-full bg-current transition-transform duration-300 ${
+                    menuOpen ? '-translate-y-2 -rotate-45' : ''
+                  }`}
+                />
+              </span>
             </button>
           </div>
         </div>
 
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
-          <div className="rounded-2xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800 p-2 shadow-sm">
-            {allItems.map((item) => (
-              <Link
-                key={item.id}
-                to={item.to}
-                onClick={closeMenu}
-                className={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                  isActive(item)
-                    ? 'bg-white dark:bg-gray-700 text-primary shadow-sm'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700'
-                }`}
-              >
-                {item.label}
-              </Link>
+        {/* Mobile nav */}
+        <div
+          id="mobile-nav"
+          hidden={!menuOpen}
+          className="animate-fade-in pb-4 lg:hidden"
+        >
+          <ul className="grid gap-1 rounded-card border border-line bg-raised p-2 shadow-card">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <Link
+                  to={item.to}
+                  onClick={closeMenu}
+                  aria-current={isActive(item) ? 'page' : undefined}
+                  className={`flex items-center justify-between rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                    isActive(item)
+                      ? 'bg-brand/10 text-brand'
+                      : 'text-muted hover:bg-surface hover:text-ink'
+                  }`}
+                >
+                  {item.label}
+                  <Icon name="arrowRight" className="h-3.5 w-3.5 opacity-50" />
+                </Link>
+              </li>
             ))}
-            <a
-              href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
-              download
-              onClick={closeMenu}
-              className="block mt-1 rounded-xl px-4 py-3 text-sm font-medium text-center border border-primary text-primary hover:bg-primary hover:text-white transition-colors"
-            >
-              Resume
-            </a>
-          </div>
+            <li>
+              <a
+                href={RESUME_HREF}
+                download
+                onClick={closeMenu}
+                className="mt-1 flex items-center justify-center gap-2 rounded-lg border border-brand/50
+                           px-4 py-3 text-sm font-medium text-brand transition-colors hover:bg-brand hover:text-brand-ink"
+              >
+                <Icon name="download" className="h-4 w-4" />
+                Download résumé
+              </a>
+            </li>
+          </ul>
         </div>
       </nav>
     </header>

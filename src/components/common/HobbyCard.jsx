@@ -1,7 +1,7 @@
 import EntityCard from './EntityCard';
 
-const HobbyCard = ({ hobby }) => (
-  <EntityCard item={hobby} basePath="/hobbies" ctaLabel="View Hobby →" />
+const HobbyCard = ({ hobby, index }) => (
+  <EntityCard item={hobby} basePath="/hobbies" ctaLabel="Take a look" index={index} />
 );
 
 export default HobbyCard;

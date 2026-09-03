@@ -1,51 +1,127 @@
-const Footer = () => {
-  return (
-    <footer id="contact" className="scroll-mt-24 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-auto">
-      <div className="max-w-7xl mx-auto px-6 py-12 sm:py-16">
-        <div className="flex flex-col items-center text-center space-y-4">
-          <p className="text-primary font-medium">SAY HELLO</p>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Let's build something together</h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-xl">
-            Open to internship and full-time opportunities. Feel free to reach out.
-          </p>
-          <div className="flex space-x-6 pt-2">
-            <a
-              href="https://github.com/CrazyDog559"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              aria-label="GitHub"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-              </svg>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/drew-wan/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              aria-label="LinkedIn"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
-              </svg>
-            </a>
-            <a
-              href="mailto:drewkeithwan@gmail.com"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              aria-label="Email"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </a>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-500 pt-4">Andrew Wan © 2026</p>
+import { Link } from 'react-router-dom';
+import Icon from '../common/Icon';
+import Button from '../common/Button';
+
+const socials = [
+  { href: 'https://github.com/CrazyDog559', label: 'GitHub', icon: 'github' },
+  { href: 'https://www.linkedin.com/in/drew-wan/', label: 'LinkedIn', icon: 'linkedin' },
+  { href: 'mailto:drewkeithwan@gmail.com', label: 'Email', icon: 'mail' },
+];
+
+const siteLinks = [
+  { to: '/projects', label: 'Projects' },
+  { to: '/hobbies', label: 'Hobbies' },
+  { to: '/fiji', label: 'Fiji Mission Trip' },
+  { to: '/#skills', label: 'Skills' },
+  { to: '/#experience', label: 'Experience' },
+];
+
+const Footer = () => (
+  <footer className="mt-auto border-t border-line bg-surface">
+    {/* Contact call-to-action */}
+    <section id="contact" className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="blueprint-grid mask-radial pointer-events-none absolute inset-0"
+      />
+      <div className="relative mx-auto max-w-4xl px-5 py-16 text-center sm:px-6 sm:py-24">
+        <p className="eyebrow mb-4 flex items-center justify-center gap-2.5">
+          <span aria-hidden="true" className="inline-block h-px w-6 bg-brand/60" />
+          Say hello
+        </p>
+        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          Let&apos;s build something together
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+          Open to internship and full-time opportunities. The fastest way to reach me is email —
+          I read everything.
+        </p>
+
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Button
+            href="mailto:drewkeithwan@gmail.com"
+            variant="primary"
+            size="lg"
+            icon={<Icon name="mail" className="h-4 w-4" />}
+          >
+            drewkeithwan@gmail.com
+          </Button>
+          <Button
+            href="/assets/Resume/Andrew-Wan-Computer-Engineering.pdf"
+            download
+            variant="secondary"
+            size="lg"
+            icon={<Icon name="download" className="h-4 w-4" />}
+          >
+            Download résumé
+          </Button>
         </div>
       </div>
-    </footer>
-  );
-};
+    </section>
+
+    {/* Footer meta */}
+    <div className="border-t border-line">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 sm:px-6 lg:flex-row lg:items-start lg:justify-between lg:px-8">
+        <div className="max-w-xs">
+          <Link to="/" className="flex items-center gap-2.5">
+            <img
+              src="/assets/Logo/logo-256.png"
+              alt=""
+              width="256"
+              height="256"
+              loading="lazy"
+              decoding="async"
+              className="h-9 w-auto"
+            />
+            <span className="text-sm font-semibold tracking-tight">Andrew Wan</span>
+          </Link>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            Computer engineering, hardware-meets-software projects, and the write-ups that go with them.
+          </p>
+        </div>
+
+        <nav aria-label="Footer" className="flex flex-col gap-3">
+          <h2 className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-faint">Explore</h2>
+          <ul className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-3 lg:grid-cols-2">
+            {siteLinks.map((link) => (
+              <li key={link.to}>
+                <Link to={link.to} className="text-sm text-muted transition-colors hover:text-brand">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="flex flex-col gap-3">
+          <h2 className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-faint">Elsewhere</h2>
+          <ul className="flex gap-2">
+            {socials.map((social) => (
+              <li key={social.label}>
+                <a
+                  href={social.href}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  aria-label={social.label}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line
+                             text-muted transition-colors hover:border-brand hover:text-brand"
+                >
+                  <Icon name={social.icon} className="h-5 w-5" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-line">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 text-center sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:text-left lg:px-8">
+          <p className="font-mono text-xs text-faint">© {new Date().getFullYear()} Andrew Wan</p>
+          <p className="font-mono text-xs text-faint">Built with React, Vite &amp; Tailwind CSS</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;
